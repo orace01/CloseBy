@@ -2,7 +2,7 @@
 
 import { useRef, useState, type KeyboardEvent } from "react";
 import { cn } from "@/lib/format";
-import { paperShadow, SectionHeading, sectionX } from "./common";
+import { delay, paperShadow, SectionHeading, sectionX } from "./common";
 
 const cases = [
   {
@@ -72,7 +72,7 @@ export function UseCases() {
           lead="Freelance, agence ou consultant : décrivez votre métier, l’agent adapte la recherche et le message."
         />
 
-        <div role="tablist" aria-label="Métiers" className="flex flex-wrap gap-2">
+        <div data-reveal style={delay(3)} role="tablist" aria-label="Métiers" className="flex flex-wrap gap-2">
           {cases.map((item, i) => (
             <button
               key={item.label}
@@ -88,7 +88,7 @@ export function UseCases() {
               onClick={() => setSelected(i)}
               onKeyDown={handleKeyDown}
               className={cn(
-                "h-12 rounded-full border px-5.5 text-base font-semibold transition-colors",
+                "h-12 rounded-full border px-5.5 text-base font-semibold transition-colors duration-300",
                 i === selected ? "border-ink bg-ink text-paper" : "border-rule bg-paper text-ink hover:border-ink",
               )}
             >
@@ -98,36 +98,50 @@ export function UseCases() {
         </div>
 
         <div
+          data-reveal
+          style={delay(4)}
           id="usecase-panel"
           role="tabpanel"
           aria-labelledby={`usecase-tab-${selected}`}
           className="grid gap-4 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
         >
-          <div className="flex flex-col gap-8 rounded-3xl bg-paper p-8 sm:p-12">
-            <p className="font-mono text-xs tracking-[0.06em] text-graphite uppercase">La demande</p>
-            <p className="text-[clamp(26px,2.4vw,34px)] leading-[1.15] font-semibold tracking-[-0.03em] text-balance">
-              « {current.brief} »
-            </p>
-            <div className="flex flex-col gap-3.5 border-t border-rule pt-6">
-              <p className="font-mono text-xs tracking-[0.06em] text-graphite uppercase">L’agent cible</p>
-              <ul className="flex flex-col gap-3.5">
-                {current.targets.map((target) => (
-                  <li key={target} className="flex items-center gap-3 text-lg">
-                    <span className="size-2.5 shrink-0 bg-marker shadow-[inset_0_0_0_1px_var(--color-ink)]" aria-hidden="true" />
-                    {target}
-                  </li>
-                ))}
-              </ul>
+          <div className="rounded-3xl bg-paper p-8 sm:p-12">
+            <div key={selected} className="flex animate-fade-up flex-col gap-8">
+              <p className="font-mono text-xs tracking-[0.06em] text-graphite uppercase">La demande</p>
+              <p className="text-[clamp(26px,2.4vw,34px)] leading-[1.15] font-semibold tracking-[-0.03em] text-balance">
+                « {current.brief} »
+              </p>
+              <div className="flex flex-col gap-3.5 border-t border-rule pt-6">
+                <p className="font-mono text-xs tracking-[0.06em] text-graphite uppercase">L’agent cible</p>
+                <ul className="flex flex-col gap-3.5">
+                  {current.targets.map((target, i) => (
+                    <li
+                      key={target}
+                      className="flex animate-fade-up items-center gap-3 text-lg"
+                      style={{ animationDelay: `${150 + i * 90}ms` }}
+                    >
+                      <span className="size-2.5 shrink-0 bg-marker shadow-[inset_0_0_0_1px_var(--color-ink)]" aria-hidden="true" />
+                      {target}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
           <div className="flex items-center justify-center rounded-3xl bg-desk-deep p-5 sm:p-12">
-            <article className={cn("flex w-full max-w-[560px] flex-col gap-4.5 bg-paper px-6 py-9 sm:px-11 sm:py-10", paperShadow)}>
+            <article
+              key={selected}
+              className={cn(
+                "flex w-full max-w-[560px] animate-fade-up flex-col gap-4.5 bg-paper px-6 py-9 [animation-delay:120ms] sm:px-11 sm:py-10",
+                paperShadow,
+              )}
+            >
               <p className="font-mono text-[11px] text-graphite">À : {current.to}</p>
               <h3 className="font-serif text-[26px] leading-[1.2] font-semibold">{current.subject}</h3>
               <p className="font-serif text-lg leading-[1.65]">
-                Bonjour, j’ai vu que <span className="hl">{current.facts[0]}</span> et que{" "}
-                <span className="hl">{current.facts[1]}</span>.
+                Bonjour, j’ai vu que <span className="hl animate-sweep bg-no-repeat [animation-delay:450ms]">{current.facts[0]}</span>{" "}
+                et que <span className="hl animate-sweep bg-no-repeat [animation-delay:850ms]">{current.facts[1]}</span>.
               </p>
               <p className="font-serif text-lg leading-[1.65]">{current.pitch}</p>
               <p className="flex items-center gap-2 font-mono text-[11px] text-graphite">

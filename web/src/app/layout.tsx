@@ -34,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
+      suppressHydrationWarning
       data-scroll-behavior="smooth"
       className={`${instrumentSans.variable} ${newsreader.variable} ${plexMono.variable}`}
     >

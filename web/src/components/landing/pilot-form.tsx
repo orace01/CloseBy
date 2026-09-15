@@ -39,8 +39,8 @@ export function PilotForm() {
         placeholder="vous@entreprise.fr"
         className="h-12.5 min-w-0 flex-1 bg-transparent px-3 text-lg text-ink placeholder:text-graphite-soft sm:px-0"
       />
-      <Button type="submit" className="h-13">
-        Rejoindre le pilote <ArrowRightIcon size={17} />
+      <Button type="submit" className="group h-13">
+        Rejoindre le pilote <ArrowRightIcon size={17} className="transition-transform group-hover:translate-x-1" />
       </Button>
     </form>
   );

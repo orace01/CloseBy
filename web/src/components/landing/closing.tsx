@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PlusIcon } from "@/components/ui/icons";
 import { Wordmark } from "@/components/ui/misc";
 import { cn } from "@/lib/format";
-import { sectionX } from "./common";
+import { delay, sectionX } from "./common";
 import { PilotForm } from "./pilot-form";
 
 const questions = [
@@ -41,14 +41,18 @@ export function Faq() {
     <section id="faq" className={cn("bg-paper py-24 lg:py-35", sectionX)} aria-labelledby="faq-title">
       <div className="mx-auto grid max-w-[1312px] gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
         <div className="flex flex-col gap-6">
-          <p className="font-mono text-[13px] tracking-[0.06em] text-graphite uppercase">Questions fréquentes</p>
+          <p data-reveal style={delay(0)} className="font-mono text-[13px] tracking-[0.06em] text-graphite uppercase">
+            Questions fréquentes
+          </p>
           <h2
+            data-reveal
+            style={delay(1)}
             id="faq-title"
             className="font-condensed text-[clamp(44px,4.5vw,64px)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance"
           >
             Vous vous demandez <span className="font-serif font-medium tracking-[-0.03em] italic">peut-être…</span>
           </h2>
-          <p className="text-lg text-graphite">
+          <p data-reveal style={delay(2)} className="text-lg text-graphite">
             Une autre question ?{" "}
             <a href="mailto:contact@closeby.fr" className="font-semibold text-ink underline underline-offset-4">
               Écrivez-nous
@@ -58,7 +62,7 @@ export function Faq() {
         </div>
         <div className="border-t border-rule">
           {questions.map((item, i) => (
-            <details key={item.q} name="faq" open={i === 0} className="group border-b border-rule">
+            <details key={item.q} name="faq" open={i === 0} data-reveal="fade" style={delay(i)} className="faq-item group border-b border-rule">
               <summary className="flex min-h-20 cursor-pointer list-none items-center justify-between gap-6 py-4 text-[21px] font-semibold tracking-[-0.01em] [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-desk transition-colors group-open:bg-ink group-open:text-paper">
@@ -79,18 +83,23 @@ export function PilotCta() {
     <section id="pilote" className={cn("border-t border-rule bg-paper pt-28 pb-24 lg:pt-40 lg:pb-35", sectionX)} aria-labelledby="pilot-title">
       <div className="mx-auto flex max-w-[1312px] flex-col gap-16">
         <h2
+          data-reveal
           id="pilot-title"
           className="text-[clamp(64px,10.4vw,150px)] leading-[0.88] font-semibold tracking-[-0.055em] text-balance [font-stretch:80%]"
         >
           Votre prochain client est à deux{" "}
-          <span className="hl-strong pr-3 pl-1 font-serif font-medium tracking-[-0.04em] italic">rues.</span>
+          <span data-sweep style={delay(0, 1000)} className="hl-strong pr-3 pl-1 font-serif font-medium tracking-[-0.04em] italic">
+            rues.
+          </span>
         </h2>
         <div className="grid gap-10 lg:grid-cols-2 lg:items-end lg:gap-16">
-          <p className="max-w-[540px] text-[22px] leading-normal text-pretty text-body">
+          <p data-reveal style={delay(2)} className="max-w-[540px] text-[22px] leading-normal text-pretty text-body">
             Rejoignez le programme pilote : laissez votre e-mail professionnel, nous vous aidons à lancer votre première
             campagne.
           </p>
-          <PilotForm />
+          <div data-reveal style={delay(3)}>
+            <PilotForm />
+          </div>
         </div>
       </div>
     </section>
@@ -127,14 +136,14 @@ export function SiteFooter() {
   return (
     <footer className={cn("flex flex-col gap-18 overflow-hidden bg-ink pt-24 text-paper", sectionX)}>
       <div className="mx-auto grid w-full max-w-[1312px] gap-12 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.6fr)_repeat(3,minmax(0,1fr))]">
-        <div className="flex flex-col gap-4.5">
+        <div data-reveal className="flex flex-col gap-4.5">
           <Wordmark onDark className="text-[26px]" />
           <p className="max-w-[320px] leading-normal text-night-muted">
             L’agent qui trouve vos prochains clients près de chez vous, et vous laisse le dernier mot.
           </p>
         </div>
-        {footerColumns.map((column) => (
-          <nav key={column.title} aria-label={column.title} className="flex flex-col gap-3.5 text-[15px]">
+        {footerColumns.map((column, i) => (
+          <nav key={column.title} data-reveal style={delay(i + 1)} aria-label={column.title} className="flex flex-col gap-3.5 text-[15px]">
             <p className="font-mono text-[11px] tracking-[0.08em] text-night-muted uppercase">{column.title}</p>
             {column.links.map((link) =>
               link.href.startsWith("/") ? (
@@ -156,6 +165,8 @@ export function SiteFooter() {
       </div>
       <p
         aria-hidden="true"
+        data-reveal
+        style={delay(2)}
         className="mx-auto -mb-[0.1em] w-full max-w-[1312px] text-[clamp(96px,24vw,348px)] leading-[0.74] font-bold tracking-[-0.075em] whitespace-nowrap"
       >
         Close<span className="text-marker">By</span>

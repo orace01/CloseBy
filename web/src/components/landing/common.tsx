@@ -1,9 +1,14 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { CheckIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/format";
 
 export const sectionX = "px-4 sm:px-8 lg:px-16";
 export const paperShadow = "shadow-[0_1px_2px_rgba(18,17,15,0.06),0_24px_48px_-24px_rgba(18,17,15,0.25)]";
+
+/** Stagger index (×90 ms for reveals) and optional base delay for motion attributes. */
+export function delay(index: number, baseMs?: number): CSSProperties {
+  return { "--i": index, ...(baseMs === undefined ? {} : { "--base": `${baseMs}ms` }) } as CSSProperties;
+}
 
 export function SectionHeading({
   eyebrow,
@@ -24,11 +29,17 @@ export function SectionHeading({
     <div className="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
       <div className="flex flex-col gap-5">
         {eyebrow && (
-          <p className={cn("font-mono text-[13px] tracking-[0.06em] uppercase", dark ? "text-night-muted" : "text-graphite")}>
+          <p
+            data-reveal
+            style={delay(0)}
+            className={cn("font-mono text-[13px] tracking-[0.06em] uppercase", dark ? "text-night-muted" : "text-graphite")}
+          >
             {eyebrow}
           </p>
         )}
         <h2
+          data-reveal
+          style={delay(1)}
           id={titleId}
           className="font-condensed text-[clamp(44px,5.3vw,76px)] leading-[0.96] font-semibold tracking-[-0.045em] text-balance"
         >
@@ -42,7 +53,11 @@ export function SectionHeading({
         </h2>
       </div>
       {lead && (
-        <p className={cn("max-w-[520px] text-lg leading-[1.55] text-pretty sm:text-xl", dark ? "text-night-muted" : "text-graphite")}>
+        <p
+          data-reveal
+          style={delay(2)}
+          className={cn("max-w-[520px] text-lg leading-[1.55] text-pretty sm:text-xl", dark ? "text-night-muted" : "text-graphite")}
+        >
           {lead}
         </p>
       )}

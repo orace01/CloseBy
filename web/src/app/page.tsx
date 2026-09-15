@@ -4,6 +4,7 @@ import { Features } from "@/components/landing/features";
 import { SiteHeader } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
+import { LandingMotion, MotionBootstrap } from "@/components/landing/motion";
 import { Transparency } from "@/components/landing/transparency";
 import { Pricing, Responsible } from "@/components/landing/trust-pricing";
 import { UseCases } from "@/components/landing/use-cases";
@@ -11,6 +12,7 @@ import { UseCases } from "@/components/landing/use-cases";
 export default function HomePage() {
   return (
     <>
+      <MotionBootstrap />
       <SiteHeader />
       <main>
         <Hero />
@@ -26,6 +28,7 @@ export default function HomePage() {
         <PilotCta />
       </main>
       <SiteFooter />
+      <LandingMotion />
     </>
   );
 }

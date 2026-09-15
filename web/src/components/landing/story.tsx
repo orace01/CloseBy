@@ -1,5 +1,5 @@
 import { cn } from "@/lib/format";
-import { SectionHeading, sectionX } from "./common";
+import { delay, SectionHeading, sectionX } from "./common";
 
 const trades = [
   "Agences web",
@@ -15,10 +15,10 @@ const trades = [
 export function Marquee() {
   return (
     <section aria-label="À qui s’adresse CloseBy" className="flex flex-col gap-6 overflow-hidden border-y border-rule bg-paper py-14">
-      <p className={cn("font-mono text-xs tracking-[0.06em] text-graphite uppercase", sectionX)}>
+      <p data-reveal="fade" className={cn("font-mono text-xs tracking-[0.06em] text-graphite uppercase", sectionX)}>
         Pour tous ceux qui vendent aux entreprises de leur région
       </p>
-      <div className="flex w-max animate-marquee">
+      <div className="marquee-track flex w-max animate-marquee">
         {[0, 1].map((copy) => (
           <ul
             key={copy}
@@ -45,6 +45,13 @@ const without = [
   "Aucun suivi de qui a été contacté",
 ];
 
+const withCloseBy = [
+  "Une phrase pour décrire votre cible",
+  "Les e-mails publics trouvés pour vous",
+  null,
+  "Chaque envoi suivi, chaque réponse repérée",
+];
+
 export function BeforeAfter() {
   return (
     <section id="produit" className={cn("bg-paper py-24 lg:py-35", sectionX)} aria-labelledby="produit-title">
@@ -56,37 +63,32 @@ export function BeforeAfter() {
           lead="Chercher des entreprises, trouver le bon contact, écrire un message qui ne sonne pas faux : CloseBy fait le travail préparatoire. Vous gardez le dernier mot."
         />
         <div className="grid gap-4 lg:grid-cols-2">
-          <div className="flex flex-col gap-9 rounded-3xl bg-desk p-8 sm:p-12">
+          <div data-reveal style={delay(0)} className="flex flex-col gap-9 rounded-3xl bg-desk p-8 sm:p-12">
             <h3 className="font-mono text-xs tracking-[0.06em] text-graphite uppercase">Sans CloseBy</h3>
             <ul className="flex flex-col gap-5.5 text-[clamp(20px,1.7vw,24px)] leading-[1.3] text-graphite">
-              {without.map((item) => (
-                <li key={item} className="line-through decoration-danger decoration-2">
+              {without.map((item, i) => (
+                <li key={item} data-strike style={delay(i, 700)} className="line-through decoration-danger decoration-2">
                   {item}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="flex flex-col gap-9 rounded-3xl bg-ink p-8 text-paper sm:p-12">
+          <div data-reveal style={delay(2)} className="flex flex-col gap-9 rounded-3xl bg-ink p-8 text-paper sm:p-12">
             <h3 className="font-mono text-xs tracking-[0.06em] text-night-muted uppercase">Avec CloseBy</h3>
             <ul className="flex flex-col gap-5.5 text-[clamp(20px,1.7vw,24px)] leading-[1.3]">
-              <li className="flex gap-4">
-                <span className="mt-2.5 size-3 shrink-0 bg-marker" aria-hidden="true" />
-                Une phrase pour décrire votre cible
-              </li>
-              <li className="flex gap-4">
-                <span className="mt-2.5 size-3 shrink-0 bg-marker" aria-hidden="true" />
-                Les e-mails publics trouvés pour vous
-              </li>
-              <li className="flex gap-4">
-                <span className="mt-2.5 size-3 shrink-0 bg-marker" aria-hidden="true" />
-                <span>
-                  Un message qui cite <span className="bg-marker px-1 text-ink">leur activité</span>
-                </span>
-              </li>
-              <li className="flex gap-4">
-                <span className="mt-2.5 size-3 shrink-0 bg-marker" aria-hidden="true" />
-                Chaque envoi suivi, chaque réponse repérée
-              </li>
+              {withCloseBy.map((item, i) => (
+                <li key={item ?? "activity"} data-reveal="fade" style={delay(6 + i * 3)} className="flex gap-4">
+                  <span className="mt-2.5 size-3 shrink-0 bg-marker" aria-hidden="true" />
+                  {item ?? (
+                    <span>
+                      Un message qui cite{" "}
+                      <span data-sweep style={delay(0, 1900)} className="hl-solid px-1 text-ink">
+                        leur activité
+                      </span>
+                    </span>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
         </div>

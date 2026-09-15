@@ -3,7 +3,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { CheckIcon, ClockIcon, DownloadIcon, GlobeIcon, LockIcon, ShieldIcon, UserMinusIcon } from "@/components/ui/icons";
 import { cn, formatNumber } from "@/lib/format";
 import { plans } from "@/lib/mock-data";
-import { SectionHeading, sectionX } from "./common";
+import { delay, SectionHeading, sectionX } from "./common";
 
 const commitments: Array<{ icon: ComponentType<{ size?: number; strokeWidth?: number }>; title: string; text: string }> = [
   { icon: ShieldIcon, title: "Validation humaine", text: "Aucun e-mail ne part sans votre accord explicite." },
@@ -19,22 +19,26 @@ export function Responsible() {
     <section className={cn("bg-paper py-24 lg:py-35", sectionX)} aria-labelledby="responsible-title">
       <div className="mx-auto grid max-w-[1312px] gap-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
         <div className="flex flex-col gap-6">
-          <p className="font-mono text-[13px] tracking-[0.06em] text-graphite uppercase">Prospection responsable</p>
+          <p data-reveal style={delay(0)} className="font-mono text-[13px] tracking-[0.06em] text-graphite uppercase">
+            Prospection responsable
+          </p>
           <h2
+            data-reveal
+            style={delay(1)}
             id="responsible-title"
             className="font-condensed text-[clamp(44px,4.5vw,64px)] leading-[0.98] font-semibold tracking-[-0.045em] text-balance"
           >
             Un outil de prospection,{" "}
             <span className="font-serif font-medium tracking-[-0.03em] italic">pas une machine à spam.</span>
           </h2>
-          <p className="text-lg leading-[1.55] text-pretty text-graphite sm:text-[19px]">
+          <p data-reveal style={delay(2)} className="text-lg leading-[1.55] text-pretty text-graphite sm:text-[19px]">
             CloseBy est conçu pour des messages peu nombreux et pertinents. Vous restez responsable de vos campagnes ;
             l’outil vous aide à bien faire.
           </p>
         </div>
         <ul className="grid gap-x-10 gap-y-12 sm:grid-cols-2">
-          {commitments.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="flex flex-col gap-3">
+          {commitments.map(({ icon: Icon, title, text }, i) => (
+            <li key={title} data-reveal style={delay(i)} className="flex flex-col gap-3">
               <Icon size={28} strokeWidth={1.6} />
               <h3 className="text-[22px] font-semibold tracking-[-0.02em]">{title}</h3>
               <p className="leading-normal text-graphite">{text}</p>
@@ -69,11 +73,13 @@ export function Pricing() {
         />
 
         <ul className="grid gap-4 lg:grid-cols-3">
-          {plans.map((plan) => {
+          {plans.map((plan, i) => {
             const featured = plan.id === "pro";
             return (
               <li
                 key={plan.id}
+                data-reveal
+                style={delay(i * 2)}
                 className={cn("flex flex-col gap-7 rounded-3xl p-8 sm:p-10", featured ? "bg-ink text-paper" : "bg-paper")}
               >
                 <div className="flex flex-col gap-2">
@@ -100,7 +106,7 @@ export function Pricing() {
           })}
         </ul>
 
-        <div className="overflow-x-auto rounded-3xl bg-paper px-6 pt-3 pb-5 sm:px-10">
+        <div data-reveal style={delay(2)} className="overflow-x-auto rounded-3xl bg-paper px-6 pt-3 pb-5 sm:px-10">
           <table className="w-full min-w-[640px] border-collapse text-left">
             <caption className="sr-only">Comparaison des offres</caption>
             <thead>

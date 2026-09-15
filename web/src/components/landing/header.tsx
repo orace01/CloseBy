@@ -22,7 +22,7 @@ export function SiteHeader() {
           Rejoindre <ArrowRightIcon size={14} strokeWidth={2.2} />
         </a>
       </div>
-      <header className="sticky top-0 z-40 border-b border-rule bg-paper/95 backdrop-blur-md">
+      <header className="site-header sticky top-0 z-40 border-b border-rule bg-paper/95 backdrop-blur-md">
         <div className="mx-auto flex h-18 max-w-[1440px] items-center justify-between gap-6 px-4 sm:px-8 lg:px-16">
           <Link href="/" className="text-2xl" aria-label="CloseBy, accueil">
             <Wordmark />
