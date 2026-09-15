@@ -1,0 +1,746 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;display=swap">
+  <style>
+    body { margin: 0; background: #12110f; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    .cb-dark a:hover { color: #ffffff; }
+    h1, h2, h3, h4, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    input { font-family: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+    @keyframes cb-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes cb-sweep { 0% { background-size: 0% 100%; } 30%, 100% { background-size: 100% 100%; } }
+    @keyframes cb-scan { from { transform: translateY(0); } to { transform: translateY(448px); } }
+    @keyframes cb-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+    @keyframes cb-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+</helmet>
+<div style="width: 1440px; background: #ffffff; color: #12110f;">
+
+  <div style="display: flex; align-items: center; justify-content: center; gap: 12px; height: 40px; background: #12110f; color: #ffffff; font-size: 14px;">
+    <span style="width: 8px; height: 8px; background: #fdf156;"></span>
+    <span>Programme pilote ouvert</span>
+    <a href="#pilote" style="display: flex; align-items: center; gap: 4px; color: #fdf156; font-weight: 600;">Rejoindre <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></a>
+  </div>
+
+  <header style="position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; height: 72px; padding: 0 64px; background: rgba(255,255,255,0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #dfdeda;">
+    <span style="font-size: 24px; font-weight: 700; letter-spacing: -0.03em;">Close<span style="background: linear-gradient(180deg, transparent 45%, #fdf156 45%, #fdf156 90%, transparent 90%); padding: 0 2px;">By</span></span>
+    <nav style="display: flex; align-items: center; gap: 30px; font-size: 15px;">
+      <a href="#produit" style="color: #3d3b37;">Produit</a>
+      <a href="#comment" style="color: #3d3b37;">Comment ça marche</a>
+      <a href="#fonctionnalites" style="color: #3d3b37;">Fonctionnalités</a>
+      <a href="#usages" style="color: #3d3b37;">Cas d'usage</a>
+      <a href="#tarifs" style="color: #3d3b37;">Tarifs</a>
+      <a href="#faq" style="color: #3d3b37;">FAQ</a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 24px;">
+      <button onClick="{{ toAuth }}" style="border: 0; background: none; padding: 0; font-size: 15px; font-weight: 500; color: #12110f;">Connexion</button>
+      <button onClick="{{ toAuth }}" style="display: flex; align-items: center; height: 42px; padding: 0 18px; border: 0; border-radius: 8px; background: #12110f; color: #ffffff; font-size: 15px; font-weight: 600;">Commencer</button>
+    </div>
+  </header>
+
+  <section style="padding: 96px 64px 0; background: #ffffff; overflow: hidden;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr); gap: 64px; align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: 28px;">
+        <span style="display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;"><span style="width: 10px; height: 10px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>L'AGENT IA QUI TROUVE VOS CLIENTS</span>
+        <h1 style="font-size: 112px; line-height: 0.92; font-weight: 600; letter-spacing: -0.05em; font-stretch: 85%; text-wrap: balance;">Trouvez vos prochains clients, <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em; padding: 0 8px 0 4px; background: linear-gradient(180deg, transparent 56%, #fdf156 56%, #fdf156 94%, transparent 94%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">sans chercher.</span></h1>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 28px; padding-bottom: 12px;">
+        <p style="font-size: 20px; line-height: 1.5; color: #3d3b37; text-wrap: pretty;">CloseBy repère les entreprises qui ont besoin de vos services près de chez vous, trouve comment les contacter et prépare le premier e-mail. Vous n'avez plus qu'à valider.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <button onClick="{{ toAuth }}" style="display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 24px; border: 0; border-radius: 12px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;">Trouver mes clients <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+          <a href="#comment" style="display: flex; align-items: center; height: 56px; padding: 0 20px; border-radius: 12px; border: 1px solid #c9c8c3; color: #12110f; font-size: 16px; font-weight: 600;">Comment ça marche</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="demo" style="position: relative; margin-top: 80px; height: 520px; border-radius: 28px 28px 0 0; background: #f0f0ee; overflow: hidden; scroll-margin-top: 96px;">
+      <div style="position: absolute; left: 64px; top: 52px; display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 18px; border-radius: 999px; background: #ffffff; font-size: 15px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <span style="color: #5f5d59;">Votre activité :</span>
+        <span style="font-weight: 600;">sites web pour les restaurants, autour de Lyon</span>
+      </div>
+
+      <div style="position: absolute; left: 64px; top: 124px; display: flex; flex-direction: column; width: 600px; box-sizing: border-box; padding: 6px 28px 10px; border-radius: 20px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 30px 60px -30px rgba(18,17,15,0.25);">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 64px;">
+          <span style="font-size: 18px; font-weight: 600;">Clients potentiels trouvés</span>
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #5f5d59;">38 près de chez vous</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; height: 72px; border-top: 1px solid #efeeea;">
+          <span style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; background: #f0f0ee; font-size: 15px; font-weight: 600;">BM</span>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 17px; font-weight: 600;">Bistrot Margaux</span><span style="font-size: 14px; color: #5f5d59;">Restaurant · à 1,2 km</span></div>
+          <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #e3f0e6; color: #287c42; font-size: 13px; font-weight: 600;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Contact trouvé</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; height: 72px; border-top: 1px solid #efeeea;">
+          <span style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; background: #f0f0ee; font-size: 15px; font-weight: 600;">PC</span>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 17px; font-weight: 600;">Le Petit Comptoir</span><span style="font-size: 14px; color: #5f5d59;">Bistrot · à 1,6 km</span></div>
+          <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #e3f0e6; color: #287c42; font-size: 13px; font-weight: 600;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Contact trouvé</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; height: 72px; border-top: 1px solid #efeeea;">
+          <span style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; background: #f0f0ee; font-size: 15px; font-weight: 600;">TJ</span>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 17px; font-weight: 600;">La Table de Juliette</span><span style="font-size: 14px; color: #5f5d59;">Restaurant · à 2,1 km</span></div>
+          <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #e3f0e6; color: #287c42; font-size: 13px; font-weight: 600;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Contact trouvé</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px; height: 72px; border-top: 1px solid #efeeea;">
+          <span style="display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px; background: #f0f0ee; font-size: 15px; font-weight: 600;">SK</span>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 17px; font-weight: 600;">Sushi Kaze</span><span style="font-size: 14px; color: #5f5d59;">Restaurant japonais · à 2,8 km</span></div>
+          <span style="display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: #e3f0e6; color: #287c42; font-size: 13px; font-weight: 600;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Contact trouvé</span>
+        </div>
+      </div>
+
+      <svg style="position: absolute; left: 676px; top: 222px;" width="120" height="16" viewBox="0 0 120 16" fill="none"><path d="M0 8h110" stroke="#12110f" stroke-width="1.5" stroke-dasharray="4 5"></path><path d="M104 3l6 5-6 5" stroke="#12110f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+      <div style="position: absolute; right: 64px; top: 96px; display: flex; flex-direction: column; gap: 18px; width: 440px; box-sizing: border-box; padding: 32px 34px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 40px 80px -30px rgba(18,17,15,0.3);">
+        <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.04em; color: #5f5d59;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #287c42;"></span>PREMIER E-MAIL PRÊT · BISTROT MARGAUX</span>
+        <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 25px; line-height: 1.2; font-weight: 600;">Votre menu du midi, directement sur votre site ?</p>
+        <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.6; color: #3d3b37;">Bonjour, j'ai vu que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">votre menu n'est publié que sur Instagram</span>. Quinze minutes pour en parler ?</p>
+        <div style="display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px;">
+          <span style="display: flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid #c9c8c3; font-size: 14px; font-weight: 600;">Modifier</span>
+          <span style="display: flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 8px; background: #12110f; color: #ffffff; font-size: 14px; font-weight: 600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuver</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 24px; padding: 56px 0; background: #ffffff; border-top: 1px solid #dfdeda; border-bottom: 1px solid #dfdeda; overflow: hidden;">
+    <span style="padding: 0 64px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em; color: #5f5d59;">POUR TOUS CEUX QUI VENDENT AUX ENTREPRISES DE LEUR RÉGION</span>
+    <div style="display: flex; width: max-content; animation: cb-marquee 40s linear infinite;">
+      <div style="display: flex; align-items: center; gap: 44px; padding-right: 44px; font-size: 46px; font-weight: 600; letter-spacing: -0.035em; font-stretch: 85%; white-space: nowrap;">
+        <span>Agences web</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Photographes</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Consultants</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Experts-comptables</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Installateurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Traiteurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Formateurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Community managers</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+      </div>
+      <div aria-hidden="true" style="display: flex; align-items: center; gap: 44px; padding-right: 44px; font-size: 46px; font-weight: 600; letter-spacing: -0.035em; font-stretch: 85%; white-space: nowrap;">
+        <span>Agences web</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Photographes</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Consultants</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Experts-comptables</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Installateurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Traiteurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Formateurs</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <span>Community managers</span><span style="width: 14px; height: 14px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="produit" style="display: flex; flex-direction: column; gap: 64px; padding: 140px 64px; background: #ffffff; scroll-margin-top: 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <h2 style="font-size: 76px; line-height: 0.96; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Trouver des clients, <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">sans y passer vos soirées.</span></h2>
+      <p style="max-width: 520px; font-size: 20px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">Chercher des entreprises, trouver le bon contact, écrire un message qui ne sonne pas faux : CloseBy fait le travail préparatoire. Vous gardez le dernier mot.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+      <div style="display: flex; flex-direction: column; gap: 36px; padding: 48px; border-radius: 24px; background: #f0f0ee;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em; color: #5f5d59;">SANS CLOSEBY</span>
+        <div style="display: flex; flex-direction: column; gap: 22px; font-size: 24px; line-height: 1.3; color: #5f5d59;">
+          <span style="text-decoration: line-through; text-decoration-color: #c83b32; text-decoration-thickness: 2px;">Des heures à chercher sur Maps et dans des tableurs</span>
+          <span style="text-decoration: line-through; text-decoration-color: #c83b32; text-decoration-thickness: 2px;">Des adresses e-mail introuvables</span>
+          <span style="text-decoration: line-through; text-decoration-color: #c83b32; text-decoration-thickness: 2px;">Le même message copié-collé à tout le monde</span>
+          <span style="text-decoration: line-through; text-decoration-color: #c83b32; text-decoration-thickness: 2px;">Aucun suivi de qui a été contacté</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 36px; padding: 48px; border-radius: 24px; background: #12110f; color: #ffffff;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em; color: #a8a69f;">AVEC CLOSEBY</span>
+        <div style="display: flex; flex-direction: column; gap: 22px; font-size: 24px; line-height: 1.3;">
+          <div style="display: flex; align-items: flex-start; gap: 16px;"><span style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 10px; background: #fdf156;"></span><span>Une phrase pour décrire votre cible</span></div>
+          <div style="display: flex; align-items: flex-start; gap: 16px;"><span style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 10px; background: #fdf156;"></span><span>Les e-mails publics trouvés pour vous</span></div>
+          <div style="display: flex; align-items: flex-start; gap: 16px;"><span style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 10px; background: #fdf156;"></span><span>Un message qui cite <span style="padding: 0 4px; background: #fdf156; color: #12110f;">leur activité</span></span></div>
+          <div style="display: flex; align-items: flex-start; gap: 16px;"><span style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 10px; background: #fdf156;"></span><span>Chaque envoi suivi, chaque réponse repérée</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comment" style="display: flex; flex-direction: column; gap: 112px; padding: 140px 64px; background: #ffffff; border-top: 1px solid #dfdeda; scroll-margin-top: 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">COMMENT ÇA MARCHE</span>
+        <h2 style="font-size: 76px; line-height: 0.96; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">De l'idée à l'envoi, <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">en quatre étapes.</span></h2>
+      </div>
+      <p style="max-width: 520px; font-size: 20px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">Vous décrivez, l'agent prépare, vous décidez. À chaque étape, vous voyez ce qu'il fait et pourquoi.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 96px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">01 / 04</span>
+        <h3 style="font-size: 44px; line-height: 1.02; font-weight: 600; letter-spacing: -0.035em; font-stretch: 90%; text-wrap: balance;">Décrivez votre offre en une phrase</h3>
+        <p style="font-size: 18px; line-height: 1.55; color: #5f5d59;">CloseBy comprend votre métier, votre cible et votre zone. Vous ajustez chaque paramètre avant de lancer l'agent.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Secteur, ville et rayon détectés</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Ton et langue du message au choix</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Nombre de prospects plafonné</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; height: 480px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; gap: 20px; width: 520px; box-sizing: border-box; padding: 32px; border-radius: 16px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 24px 48px -24px rgba(18,17,15,0.25);">
+          <span style="font-size: 14px; font-weight: 600;">Que vendez-vous, et à qui ?</span>
+          <div style="padding: 16px 18px; border-radius: 12px; border: 1.5px solid #12110f; font-size: 19px; line-height: 1.4;">Je crée des sites web pour les restaurants autour de Lyon<span style="display: inline-block; width: 2px; height: 21px; margin-left: 2px; vertical-align: -4px; background: #12110f; animation: cb-blink 1s steps(1) infinite;"></span></div>
+          <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.04em; color: #5f5d59;"><span style="width: 10px; height: 10px; background: #fdf156;"></span>L'AGENT A COMPRIS</span>
+          <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; border: 1px solid #dfdeda;"><div style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 12px; color: #5f5d59;">Offre</span><span style="font-size: 15px; font-weight: 600;">Création de site web</span></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f5d59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; border: 1px solid #dfdeda;"><div style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 12px; color: #5f5d59;">Cible</span><span style="font-size: 15px; font-weight: 600;">Restaurants</span></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f5d59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; border: 1px solid #dfdeda;"><div style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 12px; color: #5f5d59;">Zone</span><span style="font-size: 15px; font-weight: 600;">Lyon · 15 km</span></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f5d59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg></div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-radius: 10px; border: 1px solid #dfdeda;"><div style="display: flex; flex-direction: column; gap: 3px;"><span style="font-size: 12px; color: #5f5d59;">Ton</span><span style="font-size: 15px; font-weight: 600;">Professionnel</span></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5f5d59" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4z"></path><path d="M13.5 6.5l4 4"></path></svg></div>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">50 crédits au maximum</span>
+            <span style="display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px; border-radius: 9px; background: #12110f; color: #ffffff; font-size: 15px; font-weight: 600;">Lancer l'agent <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 96px; align-items: center;">
+      <div style="position: relative; height: 480px; border-radius: 24px; background: #f0f0ee; overflow: hidden;">
+        <svg style="position: absolute; left: 0; top: 0;" width="100%" height="100%" viewBox="0 0 740 480" preserveAspectRatio="xMidYMid slice" fill="none">
+          <path d="M-20 400 C 150 360, 300 440, 470 410 S 700 370, 760 390" stroke="#e3e2dd" stroke-width="30" stroke-linecap="round"></path>
+          <g stroke="#ffffff" stroke-width="14" stroke-linecap="round">
+            <path d="M-20 120 L760 80"></path>
+            <path d="M-20 340 C 200 310, 480 380, 760 330"></path>
+            <path d="M180 -20 L230 500"></path>
+            <path d="M560 -20 C 530 160, 600 320, 560 500"></path>
+          </g>
+          <g stroke="#ffffff" stroke-width="6" stroke-linecap="round">
+            <path d="M-20 220 L760 200"></path>
+            <path d="M-20 450 L760 460"></path>
+            <path d="M330 -20 L360 500"></path>
+            <path d="M450 -20 L430 500"></path>
+            <path d="M660 -20 L690 500"></path>
+          </g>
+          <circle cx="400" cy="250" r="190" fill="#fdf156" fill-opacity="0.14" stroke="#12110f" stroke-width="1.5" stroke-dasharray="4 6"></circle>
+          <path d="M392 250h16M400 242v16" stroke="#12110f" stroke-width="1.5"></path>
+          <g fill="#b9b8b3">
+            <circle cx="330" cy="160" r="5"></circle>
+            <circle cx="450" cy="235" r="5"></circle>
+            <circle cx="300" cy="365" r="5"></circle>
+            <circle cx="520" cy="350" r="5"></circle>
+            <circle cx="385" cy="300" r="5"></circle>
+            <circle cx="290" cy="225" r="5"></circle>
+            <circle cx="640" cy="120" r="5"></circle>
+            <circle cx="670" cy="400" r="5"></circle>
+            <circle cx="140" cy="300" r="5"></circle>
+          </g>
+          <g fill="#fdf156" stroke="#12110f" stroke-width="1.5">
+            <rect x="303" y="202" width="14" height="14"></rect>
+            <rect x="423" y="158" width="14" height="14"></rect>
+            <rect x="473" y="283" width="14" height="14"></rect>
+            <rect x="343" y="323" width="14" height="14"></rect>
+            <rect x="253" y="273" width="14" height="14"></rect>
+            <rect x="403" y="383" width="14" height="14"></rect>
+            <rect x="523" y="213" width="14" height="14"></rect>
+          </g>
+        </svg>
+        <div style="position: absolute; left: 28px; top: 28px; display: flex; flex-direction: column; gap: 10px; min-width: 230px; padding: 18px 20px; border-radius: 14px; background: #ffffff; box-shadow: 0 16px 32px -16px rgba(18,17,15,0.25); font-size: 14px;">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.04em; color: #5f5d59;">RÉSULTATS · EXEMPLE</span>
+          <div style="display: flex; justify-content: space-between; gap: 28px;"><span>Entreprises trouvées</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500;">142</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 28px;"><span>Avec un site web</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500;">97</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 28px;"><span>E-mails publics</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500;">41</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 28px;"><span>Doublons écartés</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-weight: 500;">12</span></div>
+        </div>
+        <div style="position: absolute; left: 28px; bottom: 24px; display: flex; gap: 18px; padding: 10px 14px; border-radius: 10px; background: #ffffff; font-size: 13px;">
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 11px; height: 11px; background: #fdf156; box-shadow: inset 0 0 0 1.5px #12110f;"></span>Correspond à votre cible</span>
+          <span style="display: flex; align-items: center; gap: 8px;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #b9b8b3;"></span>Autres entreprises</span>
+        </div>
+        <span style="position: absolute; right: 28px; bottom: 30px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em;">RAYON 15 KM</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">02 / 04</span>
+        <h3 style="font-size: 44px; line-height: 1.02; font-weight: 600; letter-spacing: -0.035em; font-stretch: 90%; text-wrap: balance;">L'agent repère les entreprises autour de vous</h3>
+        <p style="font-size: 18px; line-height: 1.55; color: #5f5d59;">Il consulte des sources publiques, écarte les doublons et ne garde que les entreprises qui correspondent à votre cible.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Recherche par activité, ville et rayon</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Doublons fusionnés automatiquement</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Source et date affichées pour chaque fiche</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 96px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">03 / 04</span>
+        <h3 style="font-size: 44px; line-height: 1.02; font-weight: 600; letter-spacing: -0.035em; font-stretch: 90%; text-wrap: balance;">Il lit leur site et écrit un e-mail unique</h3>
+        <p style="font-size: 18px; line-height: 1.55; color: #5f5d59;">L'agent relève les faits utiles (menu, horaires, réservation, présence en ligne) et rédige un message qui s'appuie dessus.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Uniquement des pages publiques</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Chaque fait relié à sa source</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Ton adapté à votre offre</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 22px; height: 480px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; width: 300px; border-radius: 12px; background: #ffffff; overflow: hidden; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 24px 48px -24px rgba(18,17,15,0.25);">
+          <div style="display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-bottom: 1px solid #efeeea;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #dfdeda;"></span>
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #dfdeda;"></span>
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #dfdeda;"></span>
+            <span style="margin-left: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;">bistrot-margaux.fr</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 12px; padding: 20px;">
+            <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 600;">Bistrot Margaux</span>
+            <span style="width: 82%; height: 8px; border-radius: 4px; background: #efeeea;"></span>
+            <span style="width: 64%; height: 8px; border-radius: 4px; background: #efeeea;"></span>
+            <span style="height: 92px; border-radius: 8px; background: #f3f3f1;"></span>
+            <span style="display: flex; align-items: center; gap: 3px; font-size: 13px;"><span style="padding: 1px 4px; background: #fdf156;">Menu du midi : voir Instagram</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 9px;">1</sup></span>
+            <span style="width: 90%; height: 8px; border-radius: 4px; background: #efeeea;"></span>
+            <span style="display: flex; align-items: center; gap: 3px; font-size: 13px;"><span style="padding: 1px 4px; background: #fdf156;">Réservations au 04 •• •• •• ••</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 9px;">2</sup></span>
+            <span style="width: 70%; height: 8px; border-radius: 4px; background: #efeeea;"></span>
+          </div>
+        </div>
+        <svg width="44" height="24" viewBox="0 0 44 24" fill="none" stroke="#12110f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M2 12h38"></path><path d="M32 5l8 7-8 7"></path></svg>
+        <div style="display: flex; flex-direction: column; gap: 12px; width: 300px; box-sizing: border-box; padding: 22px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 24px 48px -24px rgba(18,17,15,0.25);">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 10px; color: #5f5d59;">À : contact@bistrot-margaux.fr</span>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.3; font-weight: 600;">Votre menu du midi, directement sur votre site ?</p>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 14px; line-height: 1.6;">Bonjour, j'ai vu que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">votre menu du midi n'est publié que sur Instagram</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 8px;">1</sup> et que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">les réservations se font par téléphone</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 8px;">2</sup>. Quinze minutes pour en parler ?</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 96px; align-items: center;">
+      <div style="position: relative; height: 480px; border-radius: 24px; background: #f0f0ee; overflow: hidden;">
+        <div style="position: absolute; left: 40px; top: 44px; display: flex; flex-direction: column; width: 380px; box-sizing: border-box; padding: 20px 22px; border-radius: 14px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 16px 32px -16px rgba(18,17,15,0.2);">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 12px;"><span style="font-size: 18px; font-weight: 600;">Relecture</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">3 à relire</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; height: 46px; border-top: 1px solid #efeeea; font-size: 15px;"><span>Bistrot Margaux</span><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #287c42;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuvé</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; height: 46px; border-top: 1px solid #efeeea; font-size: 15px;"><span>Le Petit Comptoir</span><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: #287c42;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuvé</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; height: 46px; border-top: 1px solid #efeeea; font-size: 15px;"><span style="color: #5f5d59; text-decoration: line-through; text-decoration-color: #c83b32;">Maison Berthe</span><span style="font-size: 13px; font-weight: 600; color: #c83b32;">Rejeté</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; height: 46px; border-top: 1px solid #efeeea; font-size: 15px;"><span>Sushi Kaze</span><span style="font-size: 13px; font-weight: 600;">À relire</span></div>
+        </div>
+        <div style="position: absolute; right: 40px; bottom: 44px; display: flex; flex-direction: column; gap: 22px; width: 360px; box-sizing: border-box; padding: 28px; border-radius: 16px; background: #ffffff; box-shadow: 0 30px 60px -20px rgba(18,17,15,0.35);">
+          <span style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Envoyer 8 e-mails ?</span>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+            <div style="display: flex; justify-content: space-between;"><span style="color: #5f5d59;">Depuis</span><span style="font-weight: 600;">camille@studioroux.fr</span></div>
+            <div style="display: flex; justify-content: space-between;"><span style="color: #5f5d59;">Rythme</span><span style="font-weight: 600;">1 toutes les 15 min</span></div>
+            <div style="display: flex; justify-content: space-between;"><span style="color: #5f5d59;">Désinscription</span><span style="font-weight: 600;">Incluse</span></div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 8px;">
+            <span style="display: flex; align-items: center; height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid #c9c8c3; font-size: 14px; font-weight: 600;">Annuler</span>
+            <span style="display: flex; align-items: center; gap: 6px; height: 42px; padding: 0 16px; border-radius: 8px; background: #12110f; color: #ffffff; font-size: 14px; font-weight: 600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"></path><path d="M21 3l-7 18-4-7-7-4 18-7z"></path></svg>Envoyer</span>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">04 / 04</span>
+        <h3 style="font-size: 44px; line-height: 1.02; font-weight: 600; letter-spacing: -0.035em; font-stretch: 90%; text-wrap: balance;">Vous relisez, puis vous envoyez</h3>
+        <p style="font-size: 18px; line-height: 1.55; color: #5f5d59;">Rien ne part sans votre accord. Les e-mails partent de votre boîte Gmail ou Outlook, espacés dans le temps pour rester naturels.</p>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuver, modifier ou rejeter en un clic</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Envoi progressif et plafonné</span>
+          <span style="display: flex; align-items: center; gap: 10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Suivi des envois et des réponses</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 150px 64px; background: #12110f; color: #ffffff; overflow: hidden;">
+    <div style="display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 88px; align-items: center;">
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #a8a69f;">TRANSPARENCE</span>
+        <h2 style="font-size: 96px; line-height: 0.92; font-weight: 600; letter-spacing: -0.05em; font-stretch: 85%; text-wrap: balance;">Chaque phrase a sa <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em; color: #fdf156;">source.</span></h2>
+        <p style="max-width: 460px; font-size: 20px; line-height: 1.55; color: #a8a69f; text-wrap: pretty;">L'agent ne s'appuie que sur ce qu'il a lu : page d'accueil, page contact, horaires, services. Un fait sans source est signalé, et vous relisez toujours avant l'envoi.</p>
+      </div>
+      <div style="display: flex; align-items: flex-start; gap: 32px;">
+        <div style="display: flex; flex-direction: column; gap: 18px; width: 460px; flex-shrink: 0;">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #a8a69f;">À : contact@bistrot-margaux.fr</span>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 32px; line-height: 1.2; font-weight: 600;">Votre menu du midi, directement sur votre site ?</p>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.6; color: #e9e8e4;">Bonjour, en regardant votre site, j'ai vu que <span style="padding: 0 3px; background: #fdf156; color: #12110f; -webkit-box-decoration-break: clone; box-decoration-break: clone;">votre menu du midi n'est publié que sur Instagram</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #fdf156; margin-left: 2px;">1</sup> et que <span style="padding: 0 3px; background: #fdf156; color: #12110f; -webkit-box-decoration-break: clone; box-decoration-break: clone;">les réservations se font uniquement par téléphone</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #fdf156; margin-left: 2px;">2</sup>.</p>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.6; color: #e9e8e4;">J'ai aussi noté que <span style="text-decoration: underline wavy #e8685f; text-decoration-thickness: 1.5px; text-underline-offset: 6px;">vous ouvrez une terrasse cet été</span><sup style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #e8685f; margin-left: 2px;">?</sup>.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 24px; width: 190px; padding-top: 120px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.06em; color: #fdf156;"><span style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #fdf156; color: #12110f;">1</span>SOURCE</span>
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.45; color: #e9e8e4;">Page d'accueil : lien « Menu du midi » vers Instagram</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.06em; color: #fdf156;"><span style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #fdf156; color: #12110f;">2</span>SOURCE</span>
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.45; color: #e9e8e4;">Page Contact : « Réservation par téléphone »</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.06em; color: #e8685f;"><span style="display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #e8685f; color: #12110f;">?</span>SANS SOURCE</span>
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.45; color: #e9e8e4;">Introuvable sur le site : à retirer avant l'envoi.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fonctionnalites" style="display: flex; flex-direction: column; gap: 64px; padding: 140px 64px; background: #ffffff; scroll-margin-top: 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">FONCTIONNALITÉS</span>
+        <h2 style="font-size: 76px; line-height: 0.96; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Tout ce qu'il faut. <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">Rien de superflu.</span></h2>
+      </div>
+      <p style="max-width: 520px; font-size: 20px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">Pensé pour les indépendants et les petites équipes : pas de CRM à configurer, pas de jargon. Juste ce qui sert à décrocher des rendez-vous.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; height: 190px; border-radius: 16px; background: #ffffff;">
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 220px; padding: 16px; border-radius: 12px; background: #f0f0ee;"><span style="font-size: 14px; line-height: 1.4;"><span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%);">Menu publié sur Instagram</span></span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;">page d'accueil · 14/09</span></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 220px; padding: 16px; border-radius: 12px; background: #f0f0ee;"><span style="font-size: 14px; line-height: 1.4;"><span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%);">Réservation par téléphone</span></span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;">page Contact · 14/09</span></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 220px; padding: 16px; border-radius: 12px; background: #f0f0ee;"><span style="font-size: 14px; line-height: 1.4;"><span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%);">Ouvert du mardi au samedi</span></span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;">fiche établissement · 14/09</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Des faits sourcés</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Chaque information utilisée dans un e-mail indique la page d'où elle vient et la date à laquelle elle a été lue.</p></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; height: 190px; border-radius: 16px; background: #ffffff;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 280px;">
+            <span style="display: flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; background: #12110f; color: #ffffff; font-size: 14px; font-weight: 600;">Professionnel</span>
+            <span style="display: flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #c9c8c3; font-size: 14px; font-weight: 600;">Direct</span>
+            <span style="display: flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #c9c8c3; font-size: 14px; font-weight: 600;">Chaleureux</span>
+            <span style="display: flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid #c9c8c3; font-size: 14px; font-weight: 600;">Consultatif</span>
+          </div>
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">Français · English</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Votre ton, votre langue</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Les messages suivent votre façon de parler et l'appel à l'action que vous choisissez.</p></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; height: 190px; border-radius: 16px; background: #ffffff;">
+          <div style="display: flex; align-items: center; gap: 0;">
+            <span style="width: 14px; height: 14px; border-radius: 50%; background: #12110f;"></span><span style="width: 26px; height: 1.5px; background: #12110f;"></span>
+            <span style="width: 14px; height: 14px; border-radius: 50%; background: #12110f;"></span><span style="width: 26px; height: 1.5px; background: #12110f;"></span>
+            <span style="width: 14px; height: 14px; border-radius: 50%; background: #12110f;"></span><span style="width: 26px; height: 1.5px; background: #dfdeda;"></span>
+            <span style="width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid #12110f;"></span><span style="width: 26px; height: 1.5px; background: #dfdeda;"></span>
+            <span style="width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid #12110f;"></span>
+          </div>
+          <div style="display: flex; gap: 12px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;"><span>9:00</span><span>9:15</span><span>9:30</span><span>9:45</span><span>10:00</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Un rythme d'envoi prudent</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Les envois sont espacés et plafonnés chaque jour, pour protéger votre adresse.</p></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; justify-content: center; gap: 10px; height: 190px; box-sizing: border-box; padding: 0 24px; border-radius: 16px; background: #ffffff; font-size: 14px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="color: #5f5d59; text-decoration: line-through; text-decoration-color: #c83b32;">contact@maison-berthe.fr</span><span style="font-size: 12px; font-weight: 600; color: #c83b32;">Exclu</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="color: #5f5d59; text-decoration: line-through; text-decoration-color: #c83b32;">hello@lekiosque.fr</span><span style="font-size: 12px; font-weight: 600; color: #c83b32;">Désinscrit</span></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;"><span style="color: #5f5d59; text-decoration: line-through; text-decoration-color: #c83b32;">@concurrent.fr</span><span style="font-size: 12px; font-weight: 600; color: #c83b32;">Domaine</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Liste d'exclusion</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Une adresse ou un domaine exclu ne peut plus jamais être ciblé par vos campagnes.</p></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; align-items: center; justify-content: center; height: 190px; border-radius: 16px; background: #ffffff;">
+          <div style="display: flex; align-items: flex-start; gap: 12px; width: 280px;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #f0f0ee; font-size: 13px; font-weight: 600;">LP</span>
+            <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0;">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">Le Petit Comptoir</span><span style="display: flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; background: #e3f0e6; color: #287c42; font-size: 11px; font-weight: 600;">Réponse</span></div>
+              <span style="font-size: 13px; line-height: 1.45; color: #5f5d59;">Bonjour, oui avec plaisir. Jeudi matin, ça vous irait ?</span>
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Suivi des réponses</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Envoyé, répondu, désinscrit : le statut de chaque prospect se met à jour.</p></div>
+      </div>
+
+      <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; align-items: center; gap: 48px; height: 190px; box-sizing: border-box; padding: 0 44px; border-radius: 16px; background: #ffffff;">
+          <div style="display: flex; align-items: baseline; gap: 10px;"><span style="font-size: 88px; line-height: 1; font-weight: 600; letter-spacing: -0.05em; font-variant-numeric: tabular-nums;">112</span><span style="font-size: 18px; color: #5f5d59;">/ 150 crédits</span></div>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 12px;">
+            <div style="height: 8px; border-radius: 4px; background: #f0f0ee; overflow: hidden;"><div style="width: 75%; height: 100%; border-radius: 4px; background: #12110f;"></div></div>
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.5; color: #5f5d59;">1 crédit = 1 prospect analysé et son e-mail rédigé · régénérations incluses</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Des crédits transparents</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Vous savez toujours ce qui a été consommé, et pourquoi. Une recherche sans résultat ne coûte rien.</p></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px; border-radius: 24px; background: #f0f0ee;">
+        <div style="display: flex; flex-direction: column; justify-content: center; gap: 12px; height: 190px; box-sizing: border-box; padding: 0 22px; border-radius: 16px; background: #ffffff; font-size: 14px;">
+          <div style="display: flex; align-items: center; gap: 12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M4 7l8 6 8-6"></path></svg><span style="flex: 1; font-weight: 600;">Gmail</span><span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #287c42;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #287c42;"></span>Connectée</span></div>
+          <div style="height: 1px; background: #efeeea;"></div>
+          <div style="display: flex; align-items: center; gap: 12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M4 7l8 6 8-6"></path></svg><span style="flex: 1; font-weight: 600;">Outlook</span><span style="display: flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 7px; background: #12110f; color: #ffffff; font-size: 12px; font-weight: 600;">Connecter</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;"><h3 style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em;">Gmail et Outlook</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Connexion sécurisée en deux clics, sans partager votre mot de passe.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usages" style="display: flex; flex-direction: column; gap: 56px; padding: 140px 64px; background: #f0f0ee; scroll-margin-top: 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">CAS D'USAGE</span>
+        <h2 style="font-size: 76px; line-height: 0.96; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Fait pour ceux qui vendent <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">près de chez eux.</span></h2>
+      </div>
+      <p style="max-width: 520px; font-size: 20px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">Freelance, agence ou consultant : décrivez votre métier, l'agent adapte la recherche et le message.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+        <button onClick="{{ c.pick }}" aria-pressed="{{ c.pressed }}" style="height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid {{ c.border }}; background: {{ c.bg }}; color: {{ c.color }}; font-size: 16px; font-weight: 600;">{{ c.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 16px;">
+      <div style="display: flex; flex-direction: column; gap: 32px; padding: 48px; border-radius: 24px; background: #ffffff;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em; color: #5f5d59;">LA DEMANDE</span>
+        <p style="font-size: 34px; line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; text-wrap: balance;">« {{ cur.brief }} »</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 1px solid #dfdeda;">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.06em; color: #5f5d59;">L'AGENT CIBLE</span>
+          <sc-for list="{{ cur.targets }}" as="t" hint-placeholder-count="3">
+            <span style="display: flex; align-items: center; gap: 12px; font-size: 18px;"><span style="width: 10px; height: 10px; flex-shrink: 0; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>{{ t }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; padding: 48px; border-radius: 24px; background: #e6e5e1;">
+        <div style="display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 560px; box-sizing: border-box; padding: 40px 44px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.06), 0 24px 48px -24px rgba(18,17,15,0.25);">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;">{{ cur.to }}</span>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 26px; line-height: 1.2; font-weight: 600;">{{ cur.subject }}</p>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.65;">Bonjour, j'ai vu que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">{{ cur.f1 }}</span> et que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">{{ cur.f2 }}</span>.</p>
+          <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.65;">{{ cur.pitch }}</p>
+          <span style="display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; color: #5f5d59;"><span style="width: 10px; height: 10px; background: #fdf156;"></span>{{ cur.sources }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 96px; padding: 140px 64px; background: #ffffff;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">PROSPECTION RESPONSABLE</span>
+      <h2 style="font-size: 64px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Un outil de prospection, <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">pas une machine à spam.</span></h2>
+      <p style="font-size: 19px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">CloseBy est conçu pour des messages peu nombreux et pertinents. Vous restez responsable de vos campagnes ; l'outil vous aide à bien faire.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 40px;">
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Validation humaine</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Aucun e-mail ne part sans votre accord explicite.</p></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Connexion officielle</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Envoi via Google ou Microsoft, sans jamais partager votre mot de passe.</p></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Sources publiques</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Des informations publiées par les entreprises elles-mêmes.</p></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 11h6"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Droit d'opposition</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Lien de désinscription et liste d'exclusion dans chaque campagne.</p></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Envois plafonnés</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Un rythme limité pour protéger votre réputation d'expéditeur.</p></div>
+      <div style="display: flex; flex-direction: column; gap: 12px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7 10l5 5 5-5"></path><path d="M5 20h14"></path></svg><h3 style="font-size: 22px; font-weight: 600; letter-spacing: -0.02em;">Vos données</h3><p style="font-size: 16px; line-height: 1.5; color: #5f5d59;">Export et suppression de votre compte à tout moment.</p></div>
+    </div>
+  </section>
+
+  <section id="tarifs" style="display: flex; flex-direction: column; gap: 56px; padding: 140px 64px; background: #f0f0ee; scroll-margin-top: 72px;">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <div style="display: flex; flex-direction: column; gap: 22px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">TARIFS</span>
+        <h2 style="font-size: 76px; line-height: 0.96; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Des tarifs simples, <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">sans surprise.</span></h2>
+      </div>
+      <p style="max-width: 520px; font-size: 20px; line-height: 1.55; color: #5f5d59; text-wrap: pretty;">Un crédit correspond à un prospect analysé et à son e-mail rédigé. Les régénérations sont incluses, et une recherche sans résultat ne coûte rien.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <div style="display: flex; flex-direction: column; gap: 28px; padding: 40px; border-radius: 24px; background: #ffffff;">
+        <div style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 24px; font-weight: 600;">Starter</span><span style="font-size: 16px; color: #5f5d59;">Pour tester et lancer vos premières campagnes</span></div>
+        <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 64px; line-height: 1; font-weight: 600; letter-spacing: -0.05em;">29 €</span><span style="font-size: 16px; color: #5f5d59;">/ mois</span></div>
+        <button onClick="{{ toAuth }}" style="height: 52px; border-radius: 12px; border: 1px solid #12110f; background: #ffffff; color: #12110f; font-size: 16px; font-weight: 600;">Choisir Starter</button>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 26px; border-top: 1px solid #dfdeda; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>150 crédits par mois</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>1 boîte mail connectée</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Faits sourcés et relecture</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Liste d'exclusion</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 28px; padding: 40px; border-radius: 24px; background: #12110f; color: #ffffff;">
+        <div style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 24px; font-weight: 600;">Pro</span><span style="font-size: 16px; color: #a8a69f;">Pour prospecter chaque semaine</span></div>
+        <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 64px; line-height: 1; font-weight: 600; letter-spacing: -0.05em;">79 €</span><span style="font-size: 16px; color: #a8a69f;">/ mois</span></div>
+        <button onClick="{{ toAuth }}" style="height: 52px; border: 0; border-radius: 12px; background: #fdf156; color: #12110f; font-size: 16px; font-weight: 600;">Choisir Pro</button>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 26px; border-top: 1px solid #2c2b28; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fdf156" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>600 crédits par mois</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fdf156" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Plusieurs boîtes mail</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fdf156" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Relances validées par vous</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fdf156" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Suivi des réponses</span>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 28px; padding: 40px; border-radius: 24px; background: #ffffff;">
+        <div style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 24px; font-weight: 600;">Agency</span><span style="font-size: 16px; color: #5f5d59;">Pour les agences et les équipes</span></div>
+        <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 64px; line-height: 1; font-weight: 600; letter-spacing: -0.05em;">199 €</span><span style="font-size: 16px; color: #5f5d59;">/ mois</span></div>
+        <button onClick="{{ toAuth }}" style="height: 52px; border-radius: 12px; border: 1px solid #12110f; background: #ffffff; color: #12110f; font-size: 16px; font-weight: 600;">Choisir Agency</button>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 26px; border-top: 1px solid #dfdeda; font-size: 16px;">
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>2 000 crédits par mois</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Plusieurs utilisateurs</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Campagnes séparées par client</span>
+          <span style="display: flex; align-items: center; gap: 12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Suivi des réponses</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; padding: 12px 40px 20px; border-radius: 24px; background: #ffffff; font-size: 16px;">
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 64px; font-weight: 600;">
+        <span style="font-size: 18px;">Comparer les offres</span><span>Starter</span><span>Pro</span><span>Agency</span>
+      </div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Crédits par mois</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;">150</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;">600</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace;">2 000</span></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Boîtes mail connectées</span><span>1</span><span>Plusieurs</span><span>Plusieurs</span></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Utilisateurs</span><span>1</span><span>1</span><span>Plusieurs</span></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Faits sourcés et relecture</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Liste d'exclusion</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Relances validées</span><span style="color: #b9b8b3;">—</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+      <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); align-items: center; height: 56px; border-top: 1px solid #efeeea;"><span style="color: #5f5d59;">Suivi des réponses</span><span style="color: #b9b8b3;">—</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+    </div>
+  </section>
+
+  <section id="faq" style="display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 96px; padding: 140px 64px; background: #ffffff; scroll-margin-top: 72px;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; letter-spacing: 0.06em; color: #5f5d59;">QUESTIONS FRÉQUENTES</span>
+      <h2 style="font-size: 64px; line-height: 0.98; font-weight: 600; letter-spacing: -0.045em; font-stretch: 85%; text-wrap: balance;">Vous vous demandez <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.03em;">peut-être…</span></h2>
+      <p style="font-size: 18px; line-height: 1.55; color: #5f5d59;">Une autre question ? <a href="#" style="color: #12110f; font-weight: 600; text-decoration: underline; text-underline-offset: 4px;">Écrivez-nous</a>.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; border-top: 1px solid #dfdeda;">
+      <sc-for list="{{ faq }}" as="q" hint-placeholder-count="7">
+        <div style="display: flex; flex-direction: column; border-bottom: 1px solid #dfdeda;">
+          <button onClick="{{ q.toggle }}" aria-expanded="{{ q.aria }}" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 80px; padding: 0; border: 0; background: none; color: #12110f; font-size: 21px; font-weight: 600; letter-spacing: -0.01em; text-align: left;">
+            <span>{{ q.q }}</span>
+            <span style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: {{ q.iconBg }};"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ q.iconColor }}" stroke-width="2" stroke-linecap="round" style="transform: rotate({{ q.rot }}); transition: transform 0.2s;"><path d="M12 5v14M5 12h14"></path></svg></span>
+          </button>
+          <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+            <p style="max-width: 640px; padding-bottom: 28px; font-size: 18px; line-height: 1.6; color: #5f5d59;">{{ q.a }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="pilote" style="display: flex; flex-direction: column; gap: 64px; padding: 160px 64px 140px; background: #ffffff; border-top: 1px solid #dfdeda; scroll-margin-top: 72px;">
+    <h2 style="font-size: 150px; line-height: 0.88; font-weight: 600; letter-spacing: -0.055em; font-stretch: 80%; text-wrap: balance;">Votre prochain client est à deux <span style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 500; letter-spacing: -0.04em; padding: 0 12px 0 4px; background-image: linear-gradient(180deg, transparent 56%, #fdf156 56%, #fdf156 94%, transparent 94%); background-repeat: no-repeat; background-size: 100% 100%;">rues.</span></h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: end;">
+      <p style="max-width: 540px; font-size: 22px; line-height: 1.5; color: #3d3b37; text-wrap: pretty;">Rejoignez le programme pilote : laissez votre e-mail professionnel, nous vous aidons à lancer votre première campagne.</p>
+      <div style="display: flex; flex-direction: column;">
+        <sc-if value="{{ notJoined }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; align-items: center; gap: 10px; height: 68px; box-sizing: border-box; padding: 0 8px 0 22px; border-radius: 14px; border: 1.5px solid #12110f;">
+            <input id="pilot-email" type="email" aria-label="Votre e-mail professionnel" placeholder="vous@entreprise.fr" style="flex: 1; min-width: 0; height: 50px; border: 0; background: transparent; font-size: 18px; color: #12110f;">
+            <button onClick="{{ join }}" style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 22px; border: 0; border-radius: 10px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;">Rejoindre le pilote <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ joined }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; gap: 12px; height: 68px; box-sizing: border-box; padding: 0 22px; border-radius: 14px; background: #f0f0ee; font-size: 18px; font-weight: 600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#287c42" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>C'est noté. Nous vous écrivons très bientôt.</div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <footer class="cb-dark" style="display: flex; flex-direction: column; gap: 72px; padding: 96px 64px 0; background: #12110f; color: #ffffff; overflow: hidden;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 48px;">
+      <div style="display: flex; flex-direction: column; gap: 18px;">
+        <span style="font-size: 26px; font-weight: 700; letter-spacing: -0.03em;">Close<span style="padding: 0 2px; background: linear-gradient(180deg, transparent 45%, #fdf156 45%, #fdf156 90%, transparent 90%); color: #12110f;">By</span></span>
+        <p style="max-width: 320px; font-size: 16px; line-height: 1.5; color: #a8a69f;">L'agent qui trouve vos prochains clients près de chez vous, et vous laisse le dernier mot.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 15px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; color: #a8a69f;">PRODUIT</span>
+        <a href="#fonctionnalites" style="color: #e9e8e4;">Fonctionnalités</a>
+        <a href="#comment" style="color: #e9e8e4;">Comment ça marche</a>
+        <a href="#tarifs" style="color: #e9e8e4;">Tarifs</a>
+        <a href="#demo" style="color: #e9e8e4;">Démo</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 15px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; color: #a8a69f;">ENTREPRISE</span>
+        <a href="#" style="color: #e9e8e4;">À propos</a>
+        <a href="#pilote" style="color: #e9e8e4;">Programme pilote</a>
+        <a href="#" style="color: #e9e8e4;">Contact</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; font-size: 15px;">
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.08em; color: #a8a69f;">LÉGAL</span>
+        <a href="#" style="color: #e9e8e4;">Confidentialité</a>
+        <a href="#" style="color: #e9e8e4;">Conditions d'utilisation</a>
+        <a href="#" style="color: #e9e8e4;">Mentions légales</a>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid #2c2b28; font-size: 14px; color: #a8a69f;">
+      <span>© 2026 CloseBy</span>
+      <a href="#demo" style="display: flex; align-items: center; gap: 6px; color: #a8a69f;">Voir la démo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"></path><path d="M6 11l6-6 6 6"></path></svg></a>
+    </div>
+    <div aria-hidden="true" style="font-size: 348px; line-height: 0.74; font-weight: 700; letter-spacing: -0.075em; white-space: nowrap; color: #ffffff; margin-bottom: -28px;">Close<span style="color: #fdf156;">By</span></div>
+  </footer>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":14200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const caseIdx = st.caseIdx || 0;
+    const openIdx = st.open === undefined ? 0 : st.open;
+    const joined = !!st.joined;
+    const toAuth = () => { if (this.props.go) this.props.go('auth'); };
+    const caseDefs = [
+      {
+        label: 'Agences web',
+        brief: 'Je crée des sites web pour les restaurants autour de Lyon',
+        targets: ['Restaurants, bistrots et brasseries', 'Dans un rayon de 15 km autour de Lyon', 'Dont le site n’est pas adapté au mobile'],
+        to: 'À : contact@bistrot-margaux.fr',
+        subject: 'Votre menu du midi, directement sur votre site ?',
+        f1: 'votre menu du midi n’est publié que sur Instagram',
+        f2: 'les réservations se font uniquement par téléphone',
+        pitch: 'Je crée des sites pour les restaurants lyonnais : menu modifiable, réservation en ligne. Quinze minutes pour en parler ?',
+        sources: 'Sources · page d’accueil, page Contact'
+      },
+      {
+        label: 'Photographes',
+        brief: 'Je photographie les produits des boutiques de créateurs à Nantes',
+        targets: ['Boutiques de créateurs et concept stores', 'À Nantes et dans les environs', 'Avec une boutique en ligne'],
+        to: 'À : bonjour@atelier-lune.fr',
+        subject: 'Des photos à la hauteur de vos créations ?',
+        f1: 'votre boutique en ligne présente plus de 40 créations',
+        f2: 'la plupart des fiches n’ont qu’une seule photo',
+        pitch: 'Je photographie les produits des créateurs nantais, en studio ou chez vous. Je peux vous montrer quelques exemples ?',
+        sources: 'Sources · boutique en ligne, fiches produits'
+      },
+      {
+        label: 'Consultants',
+        brief: 'J’aide les cabinets dentaires de Toulouse à réduire les rendez-vous manqués',
+        targets: ['Cabinets dentaires', 'À Toulouse', 'Avec prise de rendez-vous par téléphone'],
+        to: 'À : accueil@cabinet-des-carmes.fr',
+        subject: 'Moins de rendez-vous manqués au cabinet ?',
+        f1: 'la prise de rendez-vous se fait uniquement par téléphone',
+        f2: 'votre cabinet compte quatre praticiens',
+        pitch: 'J’accompagne les cabinets toulousains sur les rappels patients et l’organisation de l’agenda. Un échange de 15 minutes ?',
+        sources: 'Sources · page Équipe, page Contact'
+      },
+      {
+        label: 'Artisans et services',
+        brief: 'J’installe des alarmes pour les commerces de Lille',
+        targets: ['Bijouteries, opticiens et boutiques', 'À Lille et dans la métropole', 'Avec un point de vente physique'],
+        to: 'À : contact@bijouterie-vauban.fr',
+        subject: 'La sécurité de votre boutique en dehors des heures d’ouverture ?',
+        f1: 'votre boutique est fermée le dimanche et le lundi',
+        f2: 'vous proposez des montres de collection',
+        pitch: 'J’installe des alarmes pour les commerçants lillois, avec télésurveillance. Voulez-vous un devis ?',
+        sources: 'Sources · fiche établissement, site web'
+      }
+    ];
+    const cases = caseDefs.map((c, i) => ({
+      label: c.label,
+      pick: () => this.setState({ caseIdx: i }),
+      pressed: i === caseIdx ? 'true' : 'false',
+      bg: i === caseIdx ? '#12110f' : '#ffffff',
+      color: i === caseIdx ? '#ffffff' : '#12110f',
+      border: i === caseIdx ? '#12110f' : '#dfdeda'
+    }));
+    const faqDefs = [
+      { q: 'D’où viennent les informations sur les entreprises ?', a: 'De sources publiques : fiches d’établissements et pages publiques de leur site. Chaque information utilisée affiche sa source et sa date.' },
+      { q: 'Les e-mails partent-ils de CloseBy ?', a: 'Non. Ils partent de votre propre boîte Gmail ou Outlook, connectée de façon sécurisée, et seulement après votre accord.' },
+      { q: 'L’IA peut-elle inventer des choses ?', a: 'L’agent rédige à partir des faits trouvés, chacun relié à sa source. Un élément sans source est signalé, et vous relisez toujours avant l’envoi.' },
+      { q: 'La prospection par e-mail est-elle autorisée ?', a: 'Entre professionnels, elle est encadrée : le message doit concerner l’activité du destinataire, qui doit pouvoir s’opposer facilement. CloseBy intègre la désinscription, mais vous restez responsable de vos campagnes.' },
+      { q: 'Que se passe-t-il si un prospect ne veut plus être contacté ?', a: 'Il est ajouté immédiatement à votre liste d’exclusion et ne peut plus être ciblé par vos campagnes.' },
+      { q: 'Qu’est-ce qu’un crédit ?', a: 'Un crédit correspond à un prospect analysé pour lequel un e-mail est rédigé. Les régénérations sont incluses, et une recherche sans résultat ne coûte rien.' },
+      { q: 'Puis-je mettre une campagne en pause ?', a: 'Oui, à tout moment et en un clic. Les envois en attente sont suspendus aussitôt.' }
+    ];
+    const faq = faqDefs.map((f, i) => ({
+      q: f.q,
+      a: f.a,
+      open: i === openIdx,
+      aria: i === openIdx ? 'true' : 'false',
+      rot: i === openIdx ? '45deg' : '0deg',
+      iconBg: i === openIdx ? '#12110f' : '#f0f0ee',
+      iconColor: i === openIdx ? '#ffffff' : '#12110f',
+      toggle: () => this.setState({ open: i === openIdx ? -1 : i })
+    }));
+    return {
+      toAuth,
+      cases,
+      cur: caseDefs[caseIdx],
+      faq,
+      joined,
+      notJoined: !joined,
+      join: () => this.setState({ joined: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

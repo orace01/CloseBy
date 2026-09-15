@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="mailboxes" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="display: flex; flex-direction: column; gap: 32px; width: 640px; margin: 0 auto; padding-top: 64px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">Boîtes mail</h1>
+      <p style="font-size: 18px; line-height: 1.5; color: #5f5d59;">Vos e-mails partent de votre propre adresse.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <sc-for list="{{ boxes }}" as="b" hint-placeholder-count="2">
+        <div style="display: flex; align-items: center; gap: 18px; padding: 22px 24px; border: 1px solid #dfdeda; border-radius: 14px;">
+          <span style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px; background: #f0f0ee;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#12110f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="M4 7l8 6 8-6"></path></svg></span>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 18px; font-weight: 600;">{{ b.name }}</span>
+            <span style="font-size: 15px; color: #5f5d59;">{{ b.detail }}</span>
+          </div>
+          <sc-if value="{{ b.on }}" hint-placeholder-val="{{ true }}">
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #287c42;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #287c42;"></span>Connectée</span>
+          </sc-if>
+          <button onClick="{{ b.toggle }}" style="height: 42px; padding: 0 16px; border-radius: 8px; border: 1px solid {{ b.btnBorder }}; background: {{ b.btnBg }}; color: {{ b.btnColor }}; font-size: 14px; font-weight: 600;">{{ b.btn }}</button>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const connected = st.connected || { gmail: true, outlook: false };
+    const defs = [
+      { id: 'gmail', name: 'Gmail', address: 'camille@studioroux.fr' },
+      { id: 'outlook', name: 'Outlook', address: 'c.roux@outlook.fr' }
+    ];
+    const boxes = defs.map((d) => {
+      const on = !!connected[d.id];
+      return {
+        name: d.name,
+        on,
+        detail: on ? d.address : 'Non connectée',
+        btn: on ? 'Déconnecter' : 'Connecter',
+        btnBg: on ? '#ffffff' : '#12110f',
+        btnColor: on ? '#12110f' : '#ffffff',
+        btnBorder: on ? '#c9c8c3' : '#12110f',
+        toggle: () => { const next = Object.assign({}, connected); next[d.id] = !on; this.setState({ connected: next }); }
+      };
+    });
+    return { go: this.props.go, boxes };
+  }
+}
+</script>
+</body>
+</html>

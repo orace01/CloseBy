@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    input, textarea { font-family: inherit; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <header style="display: flex; align-items: center; justify-content: space-between; height: 72px; flex-shrink: 0; padding: 0 56px;">
+    <span style="font-size: 24px; font-weight: 700; letter-spacing: -0.03em;">Close<span style="background: linear-gradient(180deg, transparent 45%, #fdf156 45%, #fdf156 90%, transparent 90%); padding: 0 2px;">By</span></span>
+    <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #5f5d59;">{{ stepLabel }}</span>
+  </header>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 0 56px;">
+    <span style="height: 4px; border-radius: 2px; background: {{ bar0 }};"></span>
+    <span style="height: 4px; border-radius: 2px; background: {{ bar1 }};"></span>
+    <span style="height: 4px; border-radius: 2px; background: {{ bar2 }};"></span>
+  </div>
+
+  <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding-bottom: 60px;">
+    <div style="display: flex; flex-direction: column; gap: 36px; width: 520px;">
+      <sc-if value="{{ is0 }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 28px;">
+          <h1 style="font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em;">Parlez-nous de vous</h1>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <label for="ob-name" style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600;">Votre nom
+              <input id="ob-name" type="text" placeholder="Camille Roux" style="height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #12110f; border-radius: 10px; background: #ffffff; font-size: 16px; font-weight: 400; color: #12110f;">
+            </label>
+            <label for="ob-company" style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 600;">Votre entreprise
+              <input id="ob-company" type="text" placeholder="Studio Roux" style="height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #12110f; border-radius: 10px; background: #ffffff; font-size: 16px; font-weight: 400; color: #12110f;">
+            </label>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ is1 }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 28px;">
+          <h1 style="font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em;">Que proposez-vous ?</h1>
+          <textarea id="ob-offer" rows="3" aria-label="Votre offre" placeholder="Ex. : je crée des sites web pour les restaurants." style="box-sizing: border-box; padding: 14px 16px; border: 1.5px solid #12110f; border-radius: 10px; background: #ffffff; font-size: 17px; line-height: 1.5; color: #12110f; resize: none;"></textarea>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 14px; font-weight: 600;">Ton des e-mails</span>
+            <div style="display: flex; gap: 8px;">
+              <sc-for list="{{ tones }}" as="t" hint-placeholder-count="3">
+                <button onClick="{{ t.pick }}" style="height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid {{ t.border }}; background: {{ t.bg }}; color: {{ t.color }}; font-size: 15px; font-weight: 600;">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ is2 }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <h1 style="font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: -0.03em;">Une seule règle</h1>
+          <p style="font-size: 19px; line-height: 1.55; color: #5f5d59;">L'agent prépare les e-mails. Vous relisez et décidez de chaque envoi.</p>
+          <button onClick="{{ toggleAccept }}" style="display: flex; align-items: center; gap: 12px; border: 0; background: none; padding: 0; font-size: 16px; color: #12110f; text-align: left;">
+            <span style="display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; border: 1.5px solid #12110f; background: {{ checkBg }};">
+              <sc-if value="{{ accepted }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+            </span>
+            <span>J'accepte les règles d'utilisation</span>
+          </button>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ back }}" style="border: 0; background: none; padding: 0; font-size: 16px; font-weight: 600; color: #12110f;">Retour</button>
+        </sc-if>
+        <sc-if value="{{ noBack }}" hint-placeholder-val="{{ true }}"><span></span></sc-if>
+        <button onClick="{{ next }}" style="height: 52px; padding: 0 28px; border: 0; border-radius: 10px; background: {{ nextBg }}; color: #ffffff; font-size: 16px; font-weight: 600;">{{ nextLabel }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const step = st.step || 0;
+    const tone = st.tone || 'Professionnel';
+    const accepted = !!st.accepted;
+    const tones = ['Professionnel', 'Direct', 'Chaleureux'].map((label) => ({
+      label,
+      pick: () => this.setState({ tone: label }),
+      bg: label === tone ? '#12110f' : '#ffffff',
+      color: label === tone ? '#ffffff' : '#12110f',
+      border: label === tone ? '#12110f' : '#c9c8c3'
+    }));
+    const next = () => {
+      if (step < 2) { this.setState({ step: step + 1 }); return; }
+      if (accepted && this.props.go) this.props.go('dashboard');
+    };
+    const ready = step < 2 || accepted;
+    return {
+      stepLabel: 'Étape ' + (step + 1) + ' sur 3',
+      bar0: '#12110f',
+      bar1: step >= 1 ? '#12110f' : '#dfdeda',
+      bar2: step >= 2 ? '#12110f' : '#dfdeda',
+      is0: step === 0,
+      is1: step === 1,
+      is2: step === 2,
+      tones,
+      accepted,
+      checkBg: accepted ? '#12110f' : '#ffffff',
+      toggleAccept: () => this.setState({ accepted: !accepted }),
+      canBack: step > 0,
+      noBack: step === 0,
+      back: () => this.setState({ step: Math.max(0, step - 1) }),
+      next,
+      nextLabel: step < 2 ? 'Continuer' : 'Terminer',
+      nextBg: ready ? '#12110f' : '#b9b8b3'
+    };
+  }
+}
+</script>
+</body>
+</html>

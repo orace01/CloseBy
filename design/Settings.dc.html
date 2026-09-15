@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="settings" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="display: flex; flex-direction: column; gap: 36px; width: 720px; margin: 0 auto; padding-top: 48px;">
+    <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">Réglages</h1>
+
+    <div style="display: flex; flex-direction: column; border-top: 1px solid #dfdeda;">
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Nom</span><span style="font-weight: 600;">Camille Roux</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Entreprise</span><span style="font-weight: 600;">Studio Roux</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Langue des e-mails</span><span style="font-weight: 600;">Français</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Ton</span><span style="font-weight: 600;">Professionnel</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Adresses exclues</span><span style="font-weight: 600;">14</span></div>
+      <div style="display: flex; align-items: center; justify-content: space-between; height: 62px; border-bottom: 1px solid #efeeea; font-size: 16px;">
+        <span style="color: #5f5d59;">Détection des réponses</span>
+        <button onClick="{{ toggleReplies }}" role="switch" aria-checked="{{ repliesAria }}" aria-label="Détection des réponses" style="position: relative; width: 48px; height: 28px; padding: 0; border: 0; border-radius: 999px; background: {{ switchBg }};"><span style="position: absolute; top: 3px; left: {{ knobLeft }}; width: 22px; height: 22px; border-radius: 50%; background: #ffffff; transition: left 0.15s;"></span></button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px;">
+      <h2 style="font-size: 20px; font-weight: 600;">Confidentialité</h2>
+      <sc-if value="{{ noConfirm }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 28px;">
+          <button style="border: 0; background: none; padding: 0; font-size: 16px; font-weight: 600; color: #12110f;">Exporter mes données</button>
+          <button onClick="{{ askDelete }}" style="border: 0; background: none; padding: 0; font-size: 16px; font-weight: 600; color: #c83b32;">Supprimer mon compte</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ confirmDelete }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: #f7e3e1;">
+          <span style="font-size: 16px; font-weight: 600; color: #c83b32;">Supprimer définitivement le compte ?</span>
+          <div style="display: flex; gap: 10px;">
+            <button onClick="{{ cancelDelete }}" style="height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid #c9c8c3; background: #ffffff; color: #12110f; font-size: 14px; font-weight: 600;">Annuler</button>
+            <button style="height: 40px; padding: 0 16px; border: 0; border-radius: 8px; background: #c83b32; color: #ffffff; font-size: 14px; font-weight: 600;">Supprimer</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+
+    <button onClick="{{ toAdmin }}" style="align-self: flex-start; border: 0; background: none; padding: 0; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59; text-decoration: underline; text-underline-offset: 3px;">Console d'administration</button>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const replies = st.replies === undefined ? true : st.replies;
+    const confirmDelete = !!st.confirmDelete;
+    return {
+      go: this.props.go,
+      switchBg: replies ? '#12110f' : '#dfdeda',
+      knobLeft: replies ? '23px' : '3px',
+      repliesAria: replies ? 'true' : 'false',
+      toggleReplies: () => this.setState({ replies: !replies }),
+      askDelete: () => this.setState({ confirmDelete: true }),
+      cancelDelete: () => this.setState({ confirmDelete: false }),
+      confirmDelete,
+      noConfirm: !confirmDelete,
+      toAdmin: () => { if (this.props.go) this.props.go('admin'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

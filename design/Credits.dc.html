@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="credits" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="display: flex; flex-direction: column; gap: 44px; width: 1040px; margin: 0 auto; padding-top: 48px;">
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">Crédits</h1>
+      <div style="display: flex; align-items: baseline; gap: 14px;">
+        <span style="font-size: 88px; line-height: 1; font-weight: 600; letter-spacing: -0.05em; font-variant-numeric: tabular-nums;">112</span>
+        <span style="font-size: 18px; color: #5f5d59;">sur 150 · renouvelés le 1er octobre</span>
+      </div>
+      <div style="height: 6px; border-radius: 3px; background: #f0f0ee; overflow: hidden;"><div style="width: 75%; height: 100%; border-radius: 3px; background: #12110f;"></div></div>
+      <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #5f5d59;">1 crédit = 1 prospect analysé et son e-mail rédigé</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; gap: 18px; padding: 28px; border-radius: 14px; border: {{ p.border }};">
+          <span style="font-size: 20px; font-weight: 600;">{{ p.name }}</span>
+          <div style="display: flex; align-items: baseline; gap: 6px;">
+            <span style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.04em;">{{ p.price }}</span>
+            <span style="font-size: 15px; color: #5f5d59;">/ mois</span>
+          </div>
+          <span style="font-size: 16px; color: #5f5d59;">{{ p.volume }}</span>
+          <button onClick="{{ p.pick }}" style="height: 46px; border-radius: 10px; border: 1px solid {{ p.btnBorder }}; background: {{ p.btnBg }}; color: {{ p.btnColor }}; font-size: 15px; font-weight: 600;">{{ p.btn }}</button>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const current = 'Starter';
+    const chosen = (this.state && this.state.chosen) || current;
+    const defs = [
+      { name: 'Starter', price: '29 €', volume: '150 prospects par mois' },
+      { name: 'Pro', price: '79 €', volume: '600 prospects par mois' },
+      { name: 'Agency', price: '199 €', volume: '2 000 prospects par mois' }
+    ];
+    const plans = defs.map((p) => {
+      const isCurrent = p.name === current;
+      const isChosen = p.name === chosen;
+      let btn = 'Choisir';
+      let btnBg = '#ffffff';
+      let btnColor = '#12110f';
+      let btnBorder = '#c9c8c3';
+      if (isCurrent && isChosen) { btn = 'Plan actuel'; btnBg = '#f0f0ee'; btnColor = '#5f5d59'; btnBorder = '#f0f0ee'; }
+      else if (isChosen) { btn = 'Sélectionné'; btnBg = '#12110f'; btnColor = '#ffffff'; btnBorder = '#12110f'; }
+      else if (isCurrent) { btn = 'Garder ce plan'; }
+      return {
+        name: p.name,
+        price: p.price,
+        volume: p.volume,
+        border: isChosen ? '1.5px solid #12110f' : '1px solid #dfdeda',
+        btn, btnBg, btnColor, btnBorder,
+        pick: () => this.setState({ chosen: p.name })
+      };
+    });
+    return { go: this.props.go, plans };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    input { font-family: inherit; }
+    button:focus-visible, input:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="prospects" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="display: flex; flex-direction: column; gap: 28px; width: 1120px; margin: 0 auto; padding-top: 48px;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: baseline; gap: 14px;">
+        <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">Prospects</h1>
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">38</span>
+      </div>
+      <input id="prospects-search" type="search" aria-label="Rechercher un prospect" placeholder="Rechercher" style="width: 280px; height: 46px; box-sizing: border-box; padding: 0 16px; border: 1px solid #c9c8c3; border-radius: 10px; background: #ffffff; font-size: 15px; color: #12110f;">
+    </div>
+
+    <div style="display: flex; flex-direction: column;">
+      <div style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr) minmax(0, 1.2fr) 120px 130px; align-items: center; height: 40px; padding: 0 16px; border-bottom: 1px solid #dfdeda; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.06em; color: #5f5d59;">
+        <span>NOM</span><span>ACTIVITÉ</span><span>VILLE</span><span>E-MAIL</span><span>STATUT</span>
+      </div>
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+        <button onClick="{{ r.open }}" style="display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr) minmax(0, 1.2fr) 120px 130px; align-items: center; height: 60px; padding: 0 16px; border: 0; border-bottom: 1px solid #efeeea; background: none; color: #12110f; font-size: 15px; text-align: left;">
+          <span style="font-weight: 600;">{{ r.name }}</span>
+          <span style="color: #5f5d59;">{{ r.activity }}</span>
+          <span style="color: #5f5d59;">{{ r.city }}</span>
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: {{ r.mailColor }};">{{ r.mail }}</span>
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: {{ r.statusColor }};"><span style="width: 8px; height: 8px; flex-shrink: 0; border-radius: 50%; background: {{ r.dot }};"></span>{{ r.status }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const open = () => { if (this.props.go) this.props.go('prospect'); };
+    const S = {
+      todo: { status: 'À relire', statusColor: '#12110f', dot: '#12110f' },
+      ok: { status: 'Approuvé', statusColor: '#287c42', dot: '#287c42' },
+      sent: { status: 'Envoyé', statusColor: '#5f5d59', dot: '#5f5d59' },
+      ko: { status: 'Rejeté', statusColor: '#c83b32', dot: '#c83b32' },
+      none: { status: 'Sans e-mail', statusColor: '#5f5d59', dot: '#dfdeda' }
+    };
+    const data = [
+      ['Bistrot Margaux', 'Restaurant', 'Lyon 6e', true, 'todo'],
+      ['Le Petit Comptoir', 'Bistrot', 'Lyon 1er', true, 'ok'],
+      ['La Table de Juliette', 'Restaurant', 'Lyon 2e', true, 'todo'],
+      ['Sushi Kaze', 'Restaurant japonais', 'Lyon 7e', true, 'todo'],
+      ['Maison Berthe', 'Traiteur', 'Caluire', true, 'ko'],
+      ['Chez Lulu', 'Bouchon lyonnais', 'Lyon 5e', false, 'none'],
+      ['Pizzeria Il Forno', 'Pizzeria', 'Villeurbanne', true, 'sent'],
+      ['Brasserie du Parc', 'Brasserie', 'Lyon 6e', true, 'sent']
+    ];
+    const rows = data.map(([name, activity, city, found, s]) => Object.assign({
+      name, activity, city, open,
+      mail: found ? 'Trouvé' : '—',
+      mailColor: found ? '#12110f' : '#b9b8b3'
+    }, S[s]));
+    return { go: this.props.go, rows };
+  }
+}
+</script>
+</body>
+</html>

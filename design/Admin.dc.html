@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <div style="display: flex; align-items: center; justify-content: space-between; height: 64px; flex-shrink: 0; padding: 0 32px; border-bottom: 1px solid #dfdeda;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="font-size: 21px; font-weight: 700; letter-spacing: -0.03em;">Close<span style="background: linear-gradient(180deg, transparent 45%, #fdf156 45%, #fdf156 90%, transparent 90%); padding: 0 2px;">By</span></span>
+      <span style="display: flex; align-items: center; height: 24px; padding: 0 8px; background: #12110f; color: #ffffff; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 11px; letter-spacing: 0.08em;">ADMIN</span>
+    </div>
+    <button onClick="{{ quit }}" style="border: 0; background: none; padding: 0; font-size: 15px; font-weight: 600; color: #12110f;">Quitter</button>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 40px; width: 1120px; margin: 0 auto; padding-top: 44px;">
+    <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">Console</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #dfdeda; border-bottom: 1px solid #dfdeda;">
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 26px 0;"><span style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;">1 284</span><span style="font-size: 15px; color: #5f5d59;">utilisateurs</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 26px 28px; border-left: 1px solid #dfdeda;"><span style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;">96</span><span style="font-size: 15px; color: #5f5d59;">campagnes actives</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 26px 28px; border-left: 1px solid #dfdeda;"><span style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums;">3 412</span><span style="font-size: 15px; color: #5f5d59;">envois aujourd'hui</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 26px 28px; border-left: 1px solid #dfdeda;"><span style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: {{ remainingColor }};">{{ remaining }}</span><span style="font-size: 15px; color: #5f5d59;">incidents ouverts</span></div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="font-size: 20px; font-weight: 600;">À traiter</h2>
+      <div style="display: flex; flex-direction: column; border-top: 1px solid #dfdeda;">
+        <sc-for list="{{ incidents }}" as="x" hint-placeholder-count="3">
+          <div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 150px 140px; align-items: center; height: 68px; border-bottom: 1px solid #efeeea; font-size: 15px;">
+            <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.04em; color: {{ x.kindColor }};">{{ x.kind }}</span>
+            <span style="font-weight: 600;">{{ x.text }}</span>
+            <span style="color: #5f5d59;">{{ x.when }}</span>
+            <div style="display: flex; justify-content: flex-end;">
+              <sc-if value="{{ x.open }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ x.act }}" style="height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid #c9c8c3; background: #ffffff; color: #12110f; font-size: 14px; font-weight: 600;">{{ x.action }}</button>
+              </sc-if>
+              <sc-if value="{{ x.closed }}" hint-placeholder-val="{{ false }}">
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #287c42;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Traité</span>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const done = (this.state && this.state.done) || {};
+    const defs = [
+      { kind: 'JOB BLOQUÉ', text: 'Lecture des sites · Studio Roux', when: 'il y a 12 min', action: 'Relancer', critical: true },
+      { kind: 'QUOTA', text: 'Google Places à 92 %', when: 'il y a 1 h', action: 'Voir', critical: false },
+      { kind: 'ABUS', text: '420 envois refusés · compte 8841', when: 'hier', action: 'Suspendre', critical: true }
+    ];
+    const incidents = defs.map((x, i) => ({
+      kind: x.kind,
+      text: x.text,
+      when: x.when,
+      action: x.action,
+      kindColor: x.critical ? '#c83b32' : '#5f5d59',
+      open: !done[i],
+      closed: !!done[i],
+      act: () => { const next = Object.assign({}, done); next[i] = true; this.setState({ done: next }); }
+    }));
+    const remaining = defs.length - Object.keys(done).length;
+    return {
+      incidents,
+      remaining: String(remaining),
+      remainingColor: remaining ? '#c83b32' : '#287c42',
+      quit: () => { if (this.props.go) this.props.go('dashboard'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #12110f;
+  --color-paper: #ffffff;
+  --color-desk: #f0f0ee;
+  --color-desk-deep: #e6e5e1;
+  --color-rule: #dfdeda;
+  --color-rule-soft: #efeeea;
+  --color-line: #c9c8c3;
+  --color-body: #3d3b37;
+  --color-graphite: #5f5d59;
+  --color-graphite-soft: #8a8781;
+  --color-disabled: #b9b8b3;
+  --color-marker: #fdf156;
+  --color-danger: #c83b32;
+  --color-danger-soft: #f7e3e1;
+  --color-danger-night: #e8685f;
+  --color-success: #287c42;
+  --color-success-soft: #e3f0e6;
+  --color-night-muted: #a8a69f;
+  --color-night-text: #e9e8e4;
+  --color-night-rule: #2c2b28;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-soft: pulse-soft 1.4s ease-in-out infinite;
+  --animate-blink: blink 1s steps(1) infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/* Yellow highlighter behind a verified fact. */
+@utility hl {
+  background-image: linear-gradient(180deg, transparent 40%, var(--color-marker) 40%, var(--color-marker) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Thicker highlighter for display headlines. */
+@utility hl-strong {
+  background-image: linear-gradient(180deg, transparent 56%, var(--color-marker) 56%, var(--color-marker) 94%, transparent 94%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+@utility font-condensed {
+  font-stretch: 85%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

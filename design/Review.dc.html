@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="position: relative; display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="campaigns" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="flex: 1; min-height: 0; display: grid; grid-template-columns: 300px minmax(0, 1fr);">
+    <div style="display: flex; flex-direction: column; gap: 24px; padding: 32px 20px; border-right: 1px solid #dfdeda;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 12px;">
+        <h1 style="font-size: 34px; line-height: 1; font-weight: 600; letter-spacing: -0.03em;">Relecture</h1>
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #5f5d59;">{{ todoLabel }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <sc-for list="{{ items }}" as="it" hint-placeholder-count="5">
+          <button onClick="{{ it.pick }}" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 50px; padding: 0 12px; border: 0; border-radius: 8px; background: {{ it.bg }}; color: {{ it.color }}; font-size: 15px; font-weight: {{ it.weight }}; text-align: left;">
+            <span style="text-decoration: {{ it.strike }}; text-decoration-color: #c83b32;">{{ it.name }}</span>
+            <sc-if value="{{ it.isOk }}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#287c42" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></sc-if>
+          </button>
+        </sc-for>
+      </div>
+      <button onClick="{{ openConfirm }}" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; margin-top: auto; border: 0; border-radius: 10px; background: {{ sendBg }}; color: #ffffff; font-size: 15px; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"></path><path d="M21 3l-7 18-4-7-7-4 18-7z"></path></svg>{{ sendLabel }}</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; background: #f0f0ee;">
+      <div style="display: flex; flex-direction: column; gap: 22px; width: 700px; box-sizing: border-box; padding: 46px 56px; background: #ffffff; box-shadow: 0 1px 2px rgba(18,17,15,0.08), 0 24px 48px -20px rgba(18,17,15,0.16); outline: {{ editOutline }}; outline-offset: 6px;">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.04em; color: #5f5d59;">{{ cur.label }}</span>
+          <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.04em;">MODIFICATION</span></sc-if>
+        </div>
+        <p style="font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 30px; line-height: 1.2; font-weight: 600;">{{ cur.subject }}</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; font-family: 'Newsreader', Georgia, 'Times New Roman', serif; font-size: 19px; line-height: 1.65;">
+          <p>Bonjour,</p>
+          <p>J'ai vu que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">{{ cur.f1 }}</span> et que <span style="background: linear-gradient(180deg, transparent 40%, #fdf156 40%, #fdf156 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone;">{{ cur.f2 }}</span>.</p>
+          <p>Je crée des sites pour les commerces lyonnais, simples à modifier et adaptés au mobile. Quinze minutes pour en parler ?</p>
+          <p style="font-style: italic;">Camille Roux</p>
+        </div>
+        <button onClick="{{ toProspect }}" style="align-self: flex-start; display: flex; align-items: center; gap: 8px; border: 0; background: none; padding: 0; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59; text-decoration: underline; text-underline-offset: 3px;"><span style="width: 12px; height: 12px; background: #fdf156;"></span>Vérifié sur son site</button>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; width: 700px;">
+        <button onClick="{{ reject }}" style="height: 46px; border: 0; background: none; padding: 0 4px; font-size: 15px; font-weight: 600; color: #c83b32;">Rejeter</button>
+        <div style="display: flex; gap: 10px;">
+          <button onClick="{{ toggleEdit }}" style="height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid #c9c8c3; background: #ffffff; color: #12110f; font-size: 16px; font-weight: 600;">{{ editLabel }}</button>
+          <button onClick="{{ approve }}" style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; border: 0; border-radius: 8px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuver</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; background: rgba(18,17,15,0.4);">
+      <div role="dialog" aria-modal="true" aria-label="Confirmer l'envoi" style="display: flex; flex-direction: column; gap: 24px; width: 480px; box-sizing: border-box; padding: 36px; border-radius: 16px; background: #ffffff;">
+        <h2 style="font-size: 28px; line-height: 1.1; font-weight: 600; letter-spacing: -0.03em;">Envoyer {{ okText }} ?</h2>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px;">
+          <div style="display: flex; justify-content: space-between;"><span style="color: #5f5d59;">Depuis</span><span style="font-weight: 600;">camille@studioroux.fr</span></div>
+          <div style="display: flex; justify-content: space-between;"><span style="color: #5f5d59;">Rythme</span><span style="font-weight: 600;">1 e-mail toutes les 15 min</span></div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button onClick="{{ closeConfirm }}" style="height: 48px; padding: 0 22px; border-radius: 8px; border: 1px solid #c9c8c3; background: #ffffff; color: #12110f; font-size: 16px; font-weight: 600;">Annuler</button>
+          <button onClick="{{ send }}" style="height: 48px; padding: 0 24px; border: 0; border-radius: 8px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;">Envoyer</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = [
+      { name: 'Bistrot Margaux', activity: 'Restaurant', subject: 'Votre menu du midi, directement sur votre site ?', f1: 'votre menu du midi n’est publié que sur Instagram', f2: 'les réservations se font uniquement par téléphone', status: 'todo' },
+      { name: 'Le Petit Comptoir', activity: 'Bistrot', subject: 'Réserver chez vous en deux clics ?', f1: 'votre site ne propose pas de réservation en ligne', f2: 'vos horaires n’apparaissent pas sur l’accueil', status: 'ok' },
+      { name: 'La Table de Juliette', activity: 'Restaurant', subject: 'Une carte lisible sur téléphone ?', f1: 'votre carte n’existe qu’en PDF', f2: 'le site s’affiche mal sur mobile', status: 'todo' },
+      { name: 'Sushi Kaze', activity: 'Restaurant japonais', subject: 'Vos commandes à emporter en ligne ?', f1: 'les commandes à emporter se font par téléphone', f2: 'votre site n’a pas de page menu', status: 'todo' },
+      { name: 'Maison Berthe', activity: 'Traiteur', subject: 'Vos plateaux traiteur en ligne ?', f1: 'vos formules ne sont pas détaillées sur le site', f2: 'le formulaire de contact renvoie une erreur', status: 'ko' }
+    ];
+    const st = this.state || {};
+    const statuses = st.statuses || base.map((b) => b.status);
+    const sel = st.sel || 0;
+    const editing = !!st.editing;
+    const confirm = !!st.confirm;
+    const nextTodo = (list, from) => {
+      for (let k = 1; k <= list.length; k++) { const j = (from + k) % list.length; if (list[j] === 'todo') return j; }
+      return from;
+    };
+    const setStatus = (value) => () => {
+      const list = statuses.slice();
+      list[sel] = value;
+      this.setState({ statuses: list, sel: nextTodo(list, sel), editing: false });
+    };
+    const okCount = statuses.filter((s) => s === 'ok').length;
+    const todoCount = statuses.filter((s) => s === 'todo').length;
+    const okText = okCount + (okCount > 1 ? ' e-mails' : ' e-mail');
+    const items = base.map((b, i) => ({
+      name: b.name,
+      pick: () => this.setState({ sel: i, editing: false }),
+      bg: i === sel ? '#f0f0ee' : 'transparent',
+      weight: i === sel ? '700' : '500',
+      color: statuses[i] === 'ko' ? '#5f5d59' : '#12110f',
+      strike: statuses[i] === 'ko' ? 'line-through' : 'none',
+      isOk: statuses[i] === 'ok'
+    }));
+    const b = base[sel];
+    return {
+      go: this.props.go,
+      items,
+      todoLabel: todoCount + ' à relire',
+      cur: { label: (b.name + ' · ' + b.activity).toUpperCase(), subject: b.subject, f1: b.f1, f2: b.f2 },
+      editing,
+      editOutline: editing ? '2px dashed #12110f' : 'none',
+      editLabel: editing ? 'Terminer' : 'Modifier',
+      toggleEdit: () => this.setState({ editing: !editing }),
+      approve: setStatus('ok'),
+      reject: setStatus('ko'),
+      toProspect: () => { if (this.props.go) this.props.go('prospect'); },
+      sendLabel: okCount ? 'Envoyer ' + okText : 'Aucun e-mail approuvé',
+      sendBg: okCount ? '#12110f' : '#b9b8b3',
+      openConfirm: () => { if (okCount) this.setState({ confirm: true }); },
+      closeConfirm: () => this.setState({ confirm: false }),
+      confirm,
+      okText,
+      send: () => { this.setState({ confirm: false }); if (this.props.go) this.props.go('campaigns'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

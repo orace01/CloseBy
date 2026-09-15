@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Spline+Sans+Mono:wght@500&amp;display=swap">
+  <style>
+    body { margin: 0; background: #f1f7f2; color: #162524; font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #b75400; text-decoration: none; }
+    a:hover { color: #162524; }
+    h1, h2, h3, p { margin: 0; }
+  </style>
+</helmet>
+<div style="display: flex; width: 1440px; height: 900px; overflow: hidden; background: #f1f7f2; color: #162524;">
+  <aside style="display: flex; flex-direction: column; justify-content: space-between; width: 220px; flex-shrink: 0; box-sizing: border-box; padding: 24px 14px; background: #fcfefd; border-right: 1px solid #d0dad6;">
+    <div style="display: flex; flex-direction: column; gap: 32px;">
+      <div style="display: flex; align-items: center; gap: 9px; padding: 0 8px;">
+        <svg width="26" height="26" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13" stroke="#162524" stroke-width="1.5" stroke-dasharray="3 3"></circle><path d="M15 22s-5-4.4-5-8.2a5 5 0 0 1 10 0c0 3.8-5 8.2-5 8.2z" fill="#f18426" stroke="#162524" stroke-width="1.5"></path><circle cx="15" cy="13.8" r="1.8" fill="#fcfefd"></circle></svg>
+        <span style="font-size: 23px; font-weight: 800; font-stretch: 72%;">CloseBy</span>
+      </div>
+      <nav style="display: flex; flex-direction: column; gap: 2px; font-size: 15px;">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 10px; border-radius: 6px; color: #162524;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5e6c6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>Accueil</a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 10px; border-radius: 6px; background: #e4ece5; color: #162524; font-weight: 600;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#162524" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg>Campagnes</a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 10px; border-radius: 6px; color: #162524;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5e6c6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"></path><path d="M16 4.8a3.5 3.5 0 0 1 0 6.4"></path><path d="M18.5 14.8c1.6.8 2.6 2.6 3 5.2"></path></svg>Prospects</a>
+        <a href="#" style="display: flex; align-items: center; gap: 12px; height: 42px; padding: 0 10px; border-radius: 6px; color: #162524;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5e6c6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>Réglages</a>
+      </nav>
+    </div>
+    <span style="padding: 0 10px; font-size: 14px; color: #5e6c6b;"><span style="color: #162524; font-weight: 700;">112</span> crédits</span>
+  </aside>
+
+  <main style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 28px; padding: 36px 44px;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: baseline; gap: 16px;">
+        <h2 style="font-size: 52px; line-height: 1; font-weight: 800; font-stretch: 72%;">Relecture</h2>
+        <span style="font-family: 'Spline Sans Mono', ui-monospace, monospace; font-size: 14px; color: #5e6c6b;">4 / 12</span>
+      </div>
+      <a href="#" style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 22px; border-radius: 6px; background: #162524; color: #fcfefd; font-size: 16px; font-weight: 600;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"></path><path d="M21 3l-7 18-4-7-7-4 18-7z"></path></svg>Envoyer 8 e-mails</a>
+    </div>
+
+    <div style="flex: 1; min-height: 0; display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 28px;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="display: flex; align-items: center; gap: 12px; height: 54px; box-sizing: border-box; padding: 0 14px; border-radius: 6px; background: #fcfefd; border: 1.5px solid #162524;">
+          <span style="width: 18px; height: 18px; flex-shrink: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #f18426; border: 1.5px solid #162524; box-sizing: border-box;"></span>
+          <span style="font-size: 15px; font-weight: 700;">Bistrot Margaux</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 54px; box-sizing: border-box; padding: 0 14px; border-radius: 6px;">
+          <span style="width: 18px; height: 18px; flex-shrink: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #162524; box-sizing: border-box;"></span>
+          <span style="flex: 1; font-size: 15px; font-weight: 500;">Le Petit Comptoir</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#33854a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 54px; box-sizing: border-box; padding: 0 14px; border-radius: 6px;">
+          <span style="width: 18px; height: 18px; flex-shrink: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #f18426; border: 1.5px solid #162524; box-sizing: border-box;"></span>
+          <span style="font-size: 15px; font-weight: 500;">La Table de Juliette</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 54px; box-sizing: border-box; padding: 0 14px; border-radius: 6px;">
+          <span style="width: 18px; height: 18px; flex-shrink: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #f18426; border: 1.5px solid #162524; box-sizing: border-box;"></span>
+          <span style="font-size: 15px; font-weight: 500;">Sushi Kaze</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; height: 54px; box-sizing: border-box; padding: 0 14px; border-radius: 6px;">
+          <span style="width: 18px; height: 18px; flex-shrink: 0; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #d0dad6; box-sizing: border-box;"></span>
+          <span style="font-size: 15px; font-weight: 500; color: #5e6c6b; text-decoration: line-through;">Maison Berthe</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; background: #fcfefd; border: 1px solid #d0dad6; border-radius: 6px;">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 30px; padding: 38px 48px;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <h3 style="font-size: 42px; line-height: 1; font-weight: 800; font-stretch: 72%;">Bistrot Margaux</h3>
+            <span style="font-size: 15px; color: #5e6c6b;">Restaurant · Lyon 6e</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 18px; max-width: 640px;">
+            <p style="font-size: 20px; font-weight: 700;">Votre menu du midi, directement sur votre site ?</p>
+            <div style="display: flex; flex-direction: column; gap: 14px; font-size: 17px; line-height: 1.7; color: #22302f;">
+              <p>Bonjour,</p>
+              <p>J'ai vu que <span style="background: #ffe7d3; box-shadow: inset 0 -2px 0 #f18426; padding: 0 2px;">votre menu du midi n'est publié que sur Instagram</span> et que <span style="background: #ffe7d3; box-shadow: inset 0 -2px 0 #f18426; padding: 0 2px;">les réservations se font uniquement par téléphone</span>.</p>
+              <p>Je crée des sites pour les restaurants lyonnais, avec menu modifiable et réservation en ligne. Quinze minutes pour en parler ?</p>
+              <p>Camille Roux</p>
+            </div>
+          </div>
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #33854a;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.8 2.8L16 10"></path></svg>Vérifié sur son site</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 18px 48px; border-top: 1px solid #d0dad6;">
+          <a href="#" style="display: flex; align-items: center; height: 46px; font-size: 15px; font-weight: 600; color: #bd4238;">Rejeter</a>
+          <div style="display: flex; gap: 10px;">
+            <a href="#" style="display: flex; align-items: center; height: 48px; padding: 0 22px; border-radius: 6px; border: 1.5px solid #162524; color: #162524; font-size: 16px; font-weight: 600;">Modifier</a>
+            <a href="#" style="display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: 6px; background: #162524; color: #fcfefd; font-size: 16px; font-weight: 600;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>Approuver</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+</body>
+</html>

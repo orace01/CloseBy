@@ -1,0 +1,221 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Prototype"
+    },
+    {
+      "id": "page-2",
+      "name": "Pistes"
+    }
+  ],
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Prototype",
+      "x": 2340,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Landing.dc.html",
+      "title": "1 · Accueil",
+      "x": -1560,
+      "y": 1140,
+      "w": 1440,
+      "h": 14200,
+      "page": "page-1",
+      "is_interactive": true
+    },
+    {
+      "file": "Auth.dc.html",
+      "title": "2 · Connexion",
+      "x": 1560,
+      "y": 1140,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Onboarding.dc.html",
+      "title": "3 · Bienvenue",
+      "x": 3120,
+      "y": 1140,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Dashboard.dc.html",
+      "title": "4 · Tableau de bord",
+      "x": 4680,
+      "y": 1140,
+      "w": 1440,
+      "h": 900,
+      "page": "page-1"
+    },
+    {
+      "file": "NewCampaign.dc.html",
+      "title": "5 · Nouvelle campagne",
+      "x": 0,
+      "y": 2180,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Progress.dc.html",
+      "title": "6 · Agent au travail",
+      "x": 1560,
+      "y": 2180,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Prospects.dc.html",
+      "title": "7 · Prospects",
+      "x": 3120,
+      "y": 2180,
+      "w": 1440,
+      "h": 900,
+      "page": "page-1"
+    },
+    {
+      "file": "Review.dc.html",
+      "title": "8 · Relecture",
+      "x": 4680,
+      "y": 2180,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "ProspectDetail.dc.html",
+      "title": "9 · Fiche prospect",
+      "x": 0,
+      "y": 3220,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Campaigns.dc.html",
+      "title": "10 · Campagnes",
+      "x": 1560,
+      "y": 3220,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Mailboxes.dc.html",
+      "title": "11 · Boîtes mail",
+      "x": 3120,
+      "y": 3220,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Credits.dc.html",
+      "title": "12 · Crédits",
+      "x": 4680,
+      "y": 3220,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Settings.dc.html",
+      "title": "13 · Réglages",
+      "x": 0,
+      "y": 4260,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "Admin.dc.html",
+      "title": "14 · Administration",
+      "x": 1560,
+      "y": 4260,
+      "w": 1440,
+      "h": 900,
+      "is_interactive": true,
+      "page": "page-1"
+    },
+    {
+      "file": "AppBar.dc.html",
+      "title": "Barre de navigation",
+      "x": 3120,
+      "y": 4260,
+      "w": 1440,
+      "h": 64,
+      "page": "page-1"
+    },
+    {
+      "file": "PisteA.dc.html",
+      "title": "A · Accueil",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "PisteARelecture.dc.html",
+      "title": "A · Relecture",
+      "x": 0,
+      "y": 1040,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "PisteC.dc.html",
+      "title": "C · Accueil",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "PisteCRelecture.dc.html",
+      "title": "C · Relecture",
+      "x": 1560,
+      "y": 1040,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "proto-hint",
+      "x": 2340,
+      "y": -110,
+      "w": 700,
+      "text": "Prototype cliquable : commencez par « Commencer ».",
+      "page": "page-1"
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-1"
+  }
+}

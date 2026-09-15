@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+    @keyframes cb-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="campaigns" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="display: flex; flex-direction: column; gap: 36px; width: 640px; margin: 0 auto; padding-top: 80px;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.04em; color: #5f5d59;">RESTAURANTS AUTOUR DE LYON</span>
+      <h1 style="font-size: 44px; line-height: 1; font-weight: 600; letter-spacing: -0.035em;">{{ title }}</h1>
+    </div>
+
+    <div style="height: 6px; border-radius: 3px; background: #f0f0ee; overflow: hidden;"><div style="width: 68%; height: 100%; border-radius: 3px; background: #12110f;"></div></div>
+
+    <div style="display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; gap: 16px; height: 64px; border-bottom: 1px solid #efeeea;">
+        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #12110f;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>
+        <span style="flex: 1; font-size: 18px;">Recherche des entreprises</span>
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">142</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px; height: 64px; border-bottom: 1px solid #efeeea;">
+        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;"><span style="width: 14px; height: 14px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f; animation: {{ anim }};"></span></span>
+        <span style="flex: 1; font-size: 18px;">Lecture des sites</span>
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">97 / 142</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px; height: 64px; border-bottom: 1px solid #efeeea;">
+        <span style="display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0;"><span style="width: 14px; height: 14px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f; animation: {{ anim }};"></span></span>
+        <span style="flex: 1; font-size: 18px;">Rédaction des e-mails</span>
+        <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 14px; color: #5f5d59;">12 prêts</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <button onClick="{{ togglePause }}" style="border: 0; background: none; padding: 0; font-size: 16px; font-weight: 600; color: #12110f;">{{ pauseLabel }}</button>
+      <button onClick="{{ toReview }}" style="display: flex; align-items: center; gap: 8px; height: 52px; padding: 0 24px; border: 0; border-radius: 10px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;">Relire les 12 e-mails <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+    </div>
+    <p style="font-size: 14px; color: #5f5d59;">Vous pouvez fermer cette page : l'agent continue.</p>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const paused = !!(this.state && this.state.paused);
+    return {
+      go: this.props.go,
+      title: paused ? 'Agent en pause' : 'L’agent travaille…',
+      pauseLabel: paused ? 'Reprendre' : 'Mettre en pause',
+      anim: paused ? 'none' : 'cb-pulse 1.4s ease-in-out infinite',
+      togglePause: () => this.setState({ paused: !paused }),
+      toReview: () => { if (this.props.go) this.props.go('review'); }
+    };
+  }
+}
+</script>
+</body>
+</html>

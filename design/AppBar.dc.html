@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; align-items: center; justify-content: space-between; width: 1440px; height: 64px; box-sizing: border-box; padding: 0 32px; background: #ffffff; border-bottom: 1px solid #dfdeda; color: #12110f;">
+  <div style="display: flex; align-items: center; gap: 36px;">
+    <button onClick="{{ home }}" style="border: 0; background: none; padding: 0; font-size: 21px; font-weight: 700; letter-spacing: -0.03em; color: #12110f;">Close<span style="background: linear-gradient(180deg, transparent 45%, #fdf156 45%, #fdf156 90%, transparent 90%); padding: 0 2px;">By</span></button>
+    <nav style="display: flex; align-items: center; gap: 4px;">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.go }}" style="display: flex; align-items: center; height: 36px; padding: 0 14px; border: 0; border-radius: 8px; background: {{ t.bg }}; color: {{ t.color }}; font-size: 15px; font-weight: {{ t.weight }};">{{ t.label }}</button>
+      </sc-for>
+    </nav>
+  </div>
+  <div style="display: flex; align-items: center; gap: 18px;">
+    <button onClick="{{ credits }}" style="border: 0; background: none; padding: 0; font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 13px; color: #5f5d59;">112 crédits</button>
+    <button onClick="{{ settings }}" aria-label="Réglages" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: #12110f; color: #ffffff; font-size: 12px; font-weight: 600;">CR</button>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"active":{"editor":null,"default":"campaigns"},"go":{"editor":null},"$preview":{"width":1440,"height":64}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.active ?? 'campaigns';
+    const nav = (s) => () => { if (this.props.go) this.props.go(s); };
+    const tabs = [
+      { id: 'dashboard', label: 'Accueil' },
+      { id: 'campaigns', label: 'Campagnes' },
+      { id: 'prospects', label: 'Prospects' },
+      { id: 'mailboxes', label: 'Boîtes mail' },
+      { id: 'credits', label: 'Crédits' }
+    ].map((t) => ({
+      label: t.label,
+      go: nav(t.id),
+      bg: t.id === active ? '#f0f0ee' : 'transparent',
+      color: t.id === active ? '#12110f' : '#5f5d59',
+      weight: t.id === active ? '600' : '500'
+    }));
+    return { tabs, home: nav('dashboard'), credits: nav('credits'), settings: nav('settings') };
+  }
+}
+</script>
+</body>
+</html>

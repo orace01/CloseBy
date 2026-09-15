@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=Instrument+Sans:wdth,wght@75..100,400..700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #ffffff; color: #12110f; font-family: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #12110f; text-decoration: none; }
+    a:hover { color: #5f5d59; }
+    h1, h2, h3, p { margin: 0; }
+    button { font-family: inherit; cursor: pointer; }
+    button:focus-visible { outline: 2px solid #12110f; outline-offset: 2px; }
+  </style>
+</helmet>
+<div style="display: flex; flex-direction: column; width: 1440px; height: 900px; overflow: hidden; background: #ffffff; color: #12110f;">
+  <dc-import name="AppBar" active="prospects" go="{{ go }}" hint-size="1440px,64px"></dc-import>
+
+  <div style="flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 520px;">
+    <div style="display: flex; flex-direction: column; gap: 32px; padding: 40px 64px;">
+      <button onClick="{{ back }}" style="align-self: flex-start; display: flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font-size: 15px; color: #5f5d59;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M11 18l-6-6 6-6"></path></svg>Prospects</button>
+
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <h1 style="font-size: 52px; line-height: 1; font-weight: 600; letter-spacing: -0.04em;">Bistrot Margaux</h1>
+          <span style="display: flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; background: {{ chipBg }}; color: {{ chipColor }}; font-size: 13px; font-weight: 600;">{{ chip }}</span>
+        </div>
+        <span style="font-size: 18px; color: #5f5d59;">Restaurant · Lyon 6e</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; max-width: 560px; border-top: 1px solid #dfdeda;">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Site</span><span style="font-weight: 600; text-decoration: underline; text-underline-offset: 3px;">bistrot-margaux.fr</span></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">E-mail</span><span style="font-weight: 600;">contact@bistrot-margaux.fr</span></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Source</span><span style="font-weight: 600;">Google Maps</span></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 56px; border-bottom: 1px solid #efeeea; font-size: 16px;"><span style="color: #5f5d59;">Collecté le</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 15px;">14/09/2026</span></div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button onClick="{{ toReview }}" style="height: 50px; padding: 0 24px; border: 0; border-radius: 10px; background: #12110f; color: #ffffff; font-size: 16px; font-weight: 600;">Voir l'e-mail</button>
+        <button onClick="{{ toggleExclude }}" style="height: 50px; padding: 0 22px; border-radius: 10px; border: 1px solid #c9c8c3; background: #ffffff; color: #12110f; font-size: 16px; font-weight: 600;">{{ excludeLabel }}</button>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 24px; padding: 104px 56px 40px; background: #f0f0ee;">
+      <span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: 0.04em; color: #5f5d59;">CE QUE L'AGENT A TROUVÉ</span>
+      <div style="display: flex; gap: 14px;">
+        <span style="width: 14px; height: 14px; flex-shrink: 0; margin-top: 5px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 17px; line-height: 1.45;">Le menu du midi n'est publié que sur Instagram.</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">bistrot-margaux.fr</span></div>
+      </div>
+      <div style="display: flex; gap: 14px;">
+        <span style="width: 14px; height: 14px; flex-shrink: 0; margin-top: 5px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 17px; line-height: 1.45;">Les réservations se font uniquement par téléphone.</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">bistrot-margaux.fr/contact</span></div>
+      </div>
+      <div style="display: flex; gap: 14px;">
+        <span style="width: 14px; height: 14px; flex-shrink: 0; margin-top: 5px; background: #fdf156; box-shadow: inset 0 0 0 1px #12110f;"></span>
+        <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 17px; line-height: 1.45;">Le site s'affiche mal sur mobile.</span><span style="font-family: 'IBM Plex Mono', ui-monospace, Menlo, monospace; font-size: 12px; color: #5f5d59;">test d'affichage mobile</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"go":{"editor":null},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const excluded = !!(this.state && this.state.excluded);
+    const nav = (s) => () => { if (this.props.go) this.props.go(s); };
+    return {
+      go: this.props.go,
+      back: nav('prospects'),
+      toReview: nav('review'),
+      chip: excluded ? 'Exclu' : 'À relire',
+      chipBg: excluded ? '#f7e3e1' : '#f0f0ee',
+      chipColor: excluded ? '#c83b32' : '#12110f',
+      excludeLabel: excluded ? 'Annuler l’exclusion' : 'Exclure',
+      toggleExclude: () => this.setState({ excluded: !excluded })
+    };
+  }
+}
+</script>
+</body>
+</html>
