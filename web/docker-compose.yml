@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: closeby-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: closeby
+      POSTGRES_PASSWORD: closeby
+      POSTGRES_DB: closeby
+    ports:
+      - "5432:5432"
+    volumes:
+      - closeby-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U closeby -d closeby"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  closeby-db:

@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useTransition } from "react";
 import { CampaignStatusLabel, PageContainer, PageTitle } from "@/components/app/page-shell";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { PlusIcon } from "@/components/ui/icons";
+import { setCampaignPaused } from "@/lib/actions/campaigns";
 import { plural } from "@/lib/format";
-import { useAppStore } from "@/lib/store";
+import type { Campaign } from "@/lib/types";
 
-export function CampaignsList() {
-  const { state, dispatch } = useAppStore();
+export function CampaignsList({ campaigns }: { campaigns: Campaign[] }) {
+  const [pending, startTransition] = useTransition();
 
   return (
     <PageContainer>
@@ -20,11 +22,15 @@ export function CampaignsList() {
         </ButtonLink>
       </div>
 
+      {campaigns.length === 0 && (
+        <p className="text-lg text-graphite">Aucune campagne pour l’instant. Décrivez ce que vous vendez, l’agent s’occupe du reste.</p>
+      )}
+
       <ul className="border-t border-rule">
-        {state.campaigns.map((campaign) => {
-          const toReview = state.prospects.filter((p) => p.campaignId === campaign.id && p.status === "to_review").length;
+        {campaigns.map((campaign) => {
           const stats = [
-            toReview > 0 && `${toReview} à relire`,
+            campaign.toReview > 0 && `${campaign.toReview} à relire`,
+            plural(campaign.progress.drafted, "rédigé"),
             plural(campaign.sent, "envoyé"),
             plural(campaign.replies, "réponse"),
           ].filter(Boolean);
@@ -44,7 +50,8 @@ export function CampaignsList() {
                     variant="secondary"
                     size="sm"
                     className="w-30"
-                    onClick={() => dispatch({ type: "toggleCampaignPause", id: campaign.id })}
+                    disabled={pending}
+                    onClick={() => startTransition(() => setCampaignPaused(campaign.id, campaign.status === "running"))}
                   >
                     {campaign.status === "paused" ? "Reprendre" : "Pause"}
                   </Button>

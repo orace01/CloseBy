@@ -6,7 +6,6 @@ import { useState } from "react";
 import { CloseIcon, MenuIcon } from "@/components/ui/icons";
 import { Wordmark } from "@/components/ui/misc";
 import { cn, formatNumber } from "@/lib/format";
-import { account } from "@/lib/mock-data";
 
 const tabs = [
   { href: "/tableau-de-bord", label: "Accueil" },
@@ -16,7 +15,7 @@ const tabs = [
   { href: "/credits", label: "Crédits" },
 ];
 
-export function AppBar() {
+export function AppBar({ initials, credits }: { initials: string; credits: number }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
@@ -49,14 +48,14 @@ export function AppBar() {
         </div>
         <div className="flex items-center gap-4">
           <Link href="/credits" className="hidden font-mono text-[13px] text-graphite hover:text-ink sm:inline">
-            {formatNumber(account.credits.balance)} crédits
+            {formatNumber(credits)} crédits
           </Link>
           <Link
             href="/reglages"
             aria-label="Réglages du compte"
             className="flex size-[34px] items-center justify-center rounded-full bg-ink text-xs font-semibold text-paper"
           >
-            {account.initials}
+            {initials}
           </Link>
           <button
             type="button"

@@ -1,28 +1,37 @@
 "use client";
 
-import { PageContainer } from "@/components/app/page-shell";
+import { useRouter } from "next/navigation";
+import { useEffect, useTransition } from "react";
+import { CalloutLink, PageContainer } from "@/components/app/page-shell";
 import { ButtonLink } from "@/components/ui/button";
 import { ArrowRightIcon, CheckIcon } from "@/components/ui/icons";
+import { setCampaignPaused } from "@/lib/actions/campaigns";
 import { cn, formatNumber, plural } from "@/lib/format";
-import { useAppStore } from "@/lib/store";
+import type { Campaign } from "@/lib/types";
 
-export function CampaignProgress({ campaignId }: { campaignId: string }) {
-  const { state, dispatch } = useAppStore();
-  const campaign = state.campaigns.find((c) => c.id === campaignId);
-  if (!campaign) return null;
+export function CampaignProgress({ campaign }: { campaign: Campaign }) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
 
   const { found, sitesRead, drafted } = campaign.progress;
-  const toReview = state.prospects.filter((p) => p.campaignId === campaign.id && p.status === "to_review").length;
   const isDone = campaign.status === "done";
   const isPaused = campaign.status === "paused";
-  const readingDone = sitesRead >= found;
-  const percent = Math.round((sitesRead / Math.max(found, 1)) * 100);
+  const isRunning = campaign.status === "running";
+  const readingDone = campaign.sourced && sitesRead >= found;
+  const percent = campaign.sourced ? Math.round((sitesRead / Math.max(found, 1)) * 100) : 0;
+
+  // Live progress: refresh the server data while the agent works.
+  useEffect(() => {
+    if (!isRunning) return;
+    const timer = setInterval(() => router.refresh(), 4000);
+    return () => clearInterval(timer);
+  }, [isRunning, router]);
 
   const title = isDone ? "Campagne terminée" : isPaused ? "Agent en pause" : "L’agent travaille…";
 
   const steps = [
-    { label: "Recherche des entreprises", value: formatNumber(found), done: true },
-    { label: "Lecture des sites", value: `${formatNumber(sitesRead)} / ${formatNumber(found)}`, done: readingDone },
+    { label: "Recherche des entreprises", value: campaign.sourced ? formatNumber(found) : "…", done: campaign.sourced },
+    { label: "Analyse des entreprises", value: `${formatNumber(sitesRead)} / ${formatNumber(found)}`, done: readingDone },
     { label: "Rédaction des e-mails", value: `${formatNumber(drafted)} prêts`, done: isDone },
   ];
 
@@ -35,13 +44,13 @@ export function CampaignProgress({ campaignId }: { campaignId: string }) {
 
       <div
         role="progressbar"
-        aria-label="Lecture des sites"
+        aria-label="Analyse des entreprises"
         aria-valuenow={percent}
         aria-valuemin={0}
         aria-valuemax={100}
         className="h-1.5 overflow-hidden rounded-sm bg-desk"
       >
-        <div className="h-full rounded-sm bg-ink" style={{ width: `${percent}%` }} />
+        <div className="h-full rounded-sm bg-ink transition-[width] duration-700" style={{ width: `${percent}%` }} />
       </div>
 
       <ol>
@@ -53,12 +62,7 @@ export function CampaignProgress({ campaignId }: { campaignId: string }) {
               </span>
             ) : (
               <span className="flex size-7 shrink-0 items-center justify-center" aria-hidden="true">
-                <span
-                  className={cn(
-                    "size-3.5 bg-marker shadow-[inset_0_0_0_1px_var(--color-ink)]",
-                    !isPaused && "animate-pulse-soft",
-                  )}
-                />
+                <span className={cn("size-3.5 bg-marker shadow-[inset_0_0_0_1px_var(--color-ink)]", isRunning && "animate-pulse-soft")} />
               </span>
             )}
             <span className="flex-1 text-lg">{step.label}</span>
@@ -67,30 +71,43 @@ export function CampaignProgress({ campaignId }: { campaignId: string }) {
         ))}
       </ol>
 
+      {campaign.withoutWebsite > 0 && (
+        <CalloutLink href={`/prospects?filtre=sans-site&campagne=${campaign.id}`} action="Voir">
+          {plural(campaign.withoutWebsite, "entreprise")} sans site web
+        </CalloutLink>
+      )}
+
+      {campaign.note && (
+        <p role="status" className="rounded-[10px] bg-desk px-4.5 py-4 text-base leading-snug">
+          {campaign.note}
+        </p>
+      )}
+
       <div className="flex flex-wrap items-center justify-between gap-4">
         {!isDone ? (
           <button
             type="button"
-            className="text-base font-semibold"
-            onClick={() => dispatch({ type: "toggleCampaignPause", id: campaign.id })}
+            disabled={pending}
+            className="text-base font-semibold disabled:text-graphite"
+            onClick={() => startTransition(() => setCampaignPaused(campaign.id, !isPaused))}
           >
             {isPaused ? "Reprendre" : "Mettre en pause"}
           </button>
         ) : (
           <span />
         )}
-        {toReview > 0 ? (
+        {campaign.toReview > 0 ? (
           <ButtonLink href={`/campagnes/${campaign.id}/relecture`} className="h-13">
-            Relire {plural(toReview, "e-mail")} <ArrowRightIcon size={17} />
+            Relire {plural(campaign.toReview, "e-mail")} <ArrowRightIcon size={17} />
           </ButtonLink>
         ) : (
-          <ButtonLink href="/prospects" variant="secondary" className="h-13">
+          <ButtonLink href={`/prospects?campagne=${campaign.id}`} variant="secondary" className="h-13">
             Voir les prospects
           </ButtonLink>
         )}
       </div>
 
-      {!isDone && <p className="text-sm text-graphite">Vous pouvez fermer cette page : l’agent continue.</p>}
+      {isRunning && <p className="text-sm text-graphite">Vous pouvez fermer cette page : l’agent continue.</p>}
     </PageContainer>
   );
 }

@@ -2,7 +2,7 @@ import type { ComponentType } from "react";
 import { ButtonLink } from "@/components/ui/button";
 import { CheckIcon, ClockIcon, DownloadIcon, GlobeIcon, LockIcon, ShieldIcon, UserMinusIcon } from "@/components/ui/icons";
 import { cn, formatNumber } from "@/lib/format";
-import { plans } from "@/lib/mock-data";
+import { plans } from "@/lib/plans";
 import { delay, SectionHeading, sectionX } from "./common";
 
 const commitments: Array<{ icon: ComponentType<{ size?: number; strokeWidth?: number }>; title: string; text: string }> = [

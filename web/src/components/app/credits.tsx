@@ -1,16 +1,12 @@
-"use client";
-
 import { PageContainer, PageTitle } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
 import { CheckIcon } from "@/components/ui/icons";
 import { cn, formatDayMonth, formatNumber } from "@/lib/format";
-import { account, plans } from "@/lib/mock-data";
-import { useAppStore } from "@/lib/store";
+import { plans } from "@/lib/plans";
+import type { PlanId } from "@/lib/types";
 
-export function Credits() {
-  const { state, dispatch } = useAppStore();
-  const currentPlan = plans.find((plan) => plan.id === state.planId) ?? plans[0];
-  const { balance, renewsOn } = account.credits;
+export function Credits({ balance, planId, renewsOn }: { balance: number; planId: PlanId; renewsOn: string | null }) {
+  const currentPlan = plans.find((plan) => plan.id === planId) ?? plans[0];
   const percent = Math.min(100, Math.round((balance / currentPlan.credits) * 100));
 
   return (
@@ -20,7 +16,8 @@ export function Credits() {
         <div className="flex flex-wrap items-baseline gap-x-3.5 gap-y-1">
           <span className="text-[88px] leading-none font-semibold tracking-[-0.05em] tabular-nums">{formatNumber(balance)}</span>
           <span className="text-lg text-graphite">
-            sur {formatNumber(currentPlan.credits)} · renouvelés le {formatDayMonth(renewsOn)}
+            sur {formatNumber(currentPlan.credits)}
+            {renewsOn && <> · renouvelés le {formatDayMonth(renewsOn)}</>}
           </span>
         </div>
         <div
@@ -63,13 +60,9 @@ export function Credits() {
                   </li>
                 ))}
               </ul>
-              <Button
-                variant={isCurrent ? "secondary" : "primary"}
-                disabled={isCurrent}
-                className="mt-auto"
-                onClick={() => dispatch({ type: "choosePlan", planId: plan.id })}
-              >
-                {isCurrent ? "Plan actuel" : `Passer à ${plan.name}`}
+              {/* Payments are not wired yet: plans can't be changed. */}
+              <Button variant="secondary" disabled className="mt-auto">
+                {isCurrent ? "Plan actuel" : "Paiement bientôt disponible"}
               </Button>
             </li>
           );

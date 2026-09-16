@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { EmailBody } from "@/components/app/page-shell";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { CheckIcon, SendIcon } from "@/components/ui/icons";
+import { decideProspect, saveEditedBody } from "@/lib/actions/campaigns";
 import { cn, plural } from "@/lib/format";
-import { account } from "@/lib/mock-data";
-import { useAppStore } from "@/lib/store";
 import type { DraftEmail, Prospect, ProspectStatus } from "@/lib/types";
 
 const REVIEWABLE: ProspectStatus[] = ["to_review", "approved", "rejected"];
@@ -17,20 +15,31 @@ function toPlainText(draft: DraftEmail) {
   return draft.paragraphs.map((paragraph) => paragraph.map((segment) => segment.text).join("")).join("\n\n");
 }
 
-export function Review({ campaignId, initialProspectId }: { campaignId: string; initialProspectId?: string }) {
-  const router = useRouter();
-  const { state, dispatch } = useAppStore();
-  const campaign = state.campaigns.find((c) => c.id === campaignId);
-  const queue = state.prospects.filter(
-    (p): p is Prospect & { draft: DraftEmail } =>
-      p.campaignId === campaignId && Boolean(p.draft) && REVIEWABLE.includes(p.status),
-  );
+export function Review({
+  campaignId,
+  prospects,
+  senderEmail,
+  initialProspectId,
+}: {
+  campaignId: string;
+  prospects: Prospect[];
+  senderEmail: string;
+  initialProspectId?: string;
+}) {
+  // Decisions show instantly; the server copy is updated in the background.
+  const [statuses, setStatuses] = useState<Record<string, ProspectStatus>>({});
+  const [, startSaving] = useTransition();
+  const queue = prospects
+    .map((p) => ({ ...p, status: statuses[p.id] ?? p.status }))
+    .filter((p): p is Prospect & { draft: DraftEmail } => Boolean(p.draft) && REVIEWABLE.includes(p.status));
 
   const [selectedId, setSelectedId] = useState(
     () => queue.find((p) => p.id === initialProspectId)?.id ?? queue.find((p) => p.status === "to_review")?.id ?? queue[0]?.id,
   );
   const [editing, setEditing] = useState(false);
-  const [edits, setEdits] = useState<Record<string, string>>({});
+  const [edits, setEdits] = useState<Record<string, string>>(() =>
+    Object.fromEntries(prospects.flatMap((p) => (p.editedBody ? [[p.id, p.editedBody]] : []))),
+  );
   const [confirmOpen, setConfirmOpen] = useState(false);
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -46,13 +55,13 @@ export function Review({ campaignId, initialProspectId }: { campaignId: string; 
   const toReviewCount = queue.filter((p) => p.status === "to_review").length;
   const approvedCount = queue.filter((p) => p.status === "approved").length;
 
-  if (!campaign || !current) {
+  if (!current) {
     return (
       <div className="mx-auto flex max-w-[640px] flex-col items-start gap-6 px-4 py-24">
         <h1 className="text-4xl font-semibold tracking-[-0.03em]">Aucun e-mail à relire</h1>
         <p className="text-lg text-graphite">L’agent n’a pas encore rédigé d’e-mail pour cette campagne.</p>
-        <ButtonLink href="/campagnes" variant="secondary">
-          Retour aux campagnes
+        <ButtonLink href={`/campagnes/${campaignId}`} variant="secondary">
+          Retour à la campagne
         </ButtonLink>
       </div>
     );
@@ -60,21 +69,21 @@ export function Review({ campaignId, initialProspectId }: { campaignId: string; 
 
   function saveEdit() {
     const value = editorRef.current?.value;
-    if (value !== undefined) setEdits((prev) => ({ ...prev, [current.id]: value }));
+    if (value !== undefined) {
+      setEdits((prev) => ({ ...prev, [current.id]: value }));
+      const id = current.id;
+      startSaving(() => saveEditedBody(id, value));
+    }
     setEditing(false);
   }
 
   function decide(status: ProspectStatus) {
     if (editing) saveEdit();
-    dispatch({ type: "setProspectStatus", id: current.id, status });
+    const id = current.id;
+    setStatuses((prev) => ({ ...prev, [id]: status }));
+    startSaving(() => decideProspect(id, status as "approved" | "rejected"));
     const next = queue.find((p) => p.id !== current.id && p.status === "to_review");
     if (next) setSelectedId(next.id);
-  }
-
-  function send() {
-    dispatch({ type: "sendApproved", campaignId });
-    setConfirmOpen(false);
-    router.push("/campagnes");
   }
 
   const editedText = edits[current.id];
@@ -140,7 +149,9 @@ export function Review({ campaignId, initialProspectId }: { campaignId: string; 
           ) : editedText !== undefined ? (
             <div className="flex flex-col gap-3.5 font-serif text-[19px] leading-[1.65]">
               {editedText.split(/\n{2,}/).map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
+                <p key={i} className="whitespace-pre-line">
+                  {paragraph}
+                </p>
               ))}
             </div>
           ) : (
@@ -183,27 +194,14 @@ export function Review({ campaignId, initialProspectId }: { campaignId: string; 
       >
         <div className="flex flex-col gap-6">
           <h2 id="send-title" className="text-[28px] leading-[1.1] font-semibold tracking-[-0.03em]">
-            Envoyer {plural(approvedCount, "e-mail")} ?
+            Envoi bientôt disponible
           </h2>
-          <dl className="flex flex-col gap-2.5 text-[15px]">
-            <div className="flex justify-between gap-4">
-              <dt className="text-graphite">Depuis</dt>
-              <dd className="font-semibold">{account.email}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-graphite">Rythme</dt>
-              <dd className="font-semibold">1 e-mail toutes les 15 min</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-graphite">Désinscription</dt>
-              <dd className="font-semibold">Incluse</dd>
-            </div>
-          </dl>
-          <div className="flex justify-end gap-2.5">
-            <Button variant="secondary" onClick={() => setConfirmOpen(false)}>
-              Annuler
-            </Button>
-            <Button onClick={send}>Envoyer</Button>
+          <p className="text-lg leading-normal text-graphite">
+            Vos {plural(approvedCount, "e-mail")} approuvés sont enregistrés. Ils partiront de {senderEmail} dès que la connexion
+            de votre boîte mail sera ouverte.
+          </p>
+          <div className="flex justify-end">
+            <Button onClick={() => setConfirmOpen(false)}>Compris</Button>
           </div>
         </div>
       </dialog>

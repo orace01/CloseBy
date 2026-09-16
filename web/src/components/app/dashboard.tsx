@@ -1,18 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { CampaignStatusLabel, PageContainer, PageTitle } from "@/components/app/page-shell";
+import { CalloutLink, CampaignStatusLabel, PageContainer, PageTitle } from "@/components/app/page-shell";
 import { ButtonLink } from "@/components/ui/button";
-import { ArrowRightIcon, PlusIcon } from "@/components/ui/icons";
+import { PlusIcon } from "@/components/ui/icons";
 import { formatNumber, plural } from "@/lib/format";
-import { account } from "@/lib/mock-data";
-import { useAppStore } from "@/lib/store";
+import type { Campaign } from "@/lib/types";
 
-export function Dashboard() {
-  const { state } = useAppStore();
-  const toReview = state.prospects.filter((p) => p.status === "to_review");
-  const reviewCampaignId = toReview[0]?.campaignId;
-  const totals = state.campaigns.reduce(
+export function Dashboard({ firstName, campaigns }: { firstName: string; campaigns: Campaign[] }) {
+  const toReview = campaigns.reduce((sum, c) => sum + c.toReview, 0);
+  const reviewCampaignId = campaigns.find((c) => c.toReview > 0)?.id;
+  const withoutWebsite = campaigns.reduce((sum, c) => sum + c.withoutWebsite, 0);
+  const totals = campaigns.reduce(
     (sum, c) => ({ found: sum.found + c.progress.found, sent: sum.sent + c.sent, replies: sum.replies + c.replies }),
     { found: 0, sent: 0, replies: 0 },
   );
@@ -26,26 +25,26 @@ export function Dashboard() {
   return (
     <PageContainer>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <PageTitle>Bonjour {account.name.split(" ")[0]}</PageTitle>
+        <PageTitle>Bonjour {firstName}</PageTitle>
         <ButtonLink href="/campagnes/nouvelle">
           <PlusIcon strokeWidth={2.2} />
           Nouvelle campagne
         </ButtonLink>
       </div>
 
-      {reviewCampaignId && (
-        <Link
-          href={`/campagnes/${reviewCampaignId}/relecture`}
-          className="flex min-h-19 items-center justify-between gap-4 rounded-xl bg-desk px-5 py-4 transition-colors hover:bg-desk-deep sm:px-7"
-        >
-          <span className="flex items-center gap-3.5 text-lg font-semibold sm:text-[19px]">
-            <span className="size-3.5 shrink-0 bg-marker shadow-[inset_0_0_0_1px_var(--color-ink)]" aria-hidden="true" />
-            {plural(toReview.length, "e-mail")} à relire
-          </span>
-          <span className="flex items-center gap-2 font-semibold">
-            Relire <ArrowRightIcon size={17} />
-          </span>
-        </Link>
+      {(reviewCampaignId || withoutWebsite > 0) && (
+        <div className="flex flex-col gap-3">
+          {reviewCampaignId && (
+            <CalloutLink href={`/campagnes/${reviewCampaignId}/relecture`} action="Relire">
+              {plural(toReview, "e-mail")} à relire
+            </CalloutLink>
+          )}
+          {withoutWebsite > 0 && (
+            <CalloutLink href="/prospects?filtre=sans-site" action="Voir">
+              {plural(withoutWebsite, "entreprise")} sans site web
+            </CalloutLink>
+          )}
+        </div>
       )}
 
       <dl className="grid grid-cols-1 border-y border-rule sm:grid-cols-3">
@@ -69,7 +68,8 @@ export function Dashboard() {
           Campagnes récentes
         </h2>
         <ul>
-          {state.campaigns.map((campaign) => (
+          {campaigns.length === 0 && <li className="py-4 text-graphite">Aucune campagne pour l’instant.</li>}
+          {campaigns.slice(0, 5).map((campaign) => (
             <li key={campaign.id}>
               <Link
                 href={`/campagnes/${campaign.id}`}

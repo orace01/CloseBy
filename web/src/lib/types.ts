@@ -39,7 +39,12 @@ export interface Prospect {
   activity: string;
   city: string;
   distanceKm: number;
+  address?: string;
   website?: string;
+  phone?: string;
+  mapsUrl?: string;
+  rating?: number;
+  reviewCount?: number;
   email?: string;
   emailSource?: string;
   nafCode?: string;
@@ -48,6 +53,8 @@ export interface Prospect {
   status: ProspectStatus;
   facts: Fact[];
   draft?: DraftEmail;
+  /** The user's rewrite of the draft, if any. */
+  editedBody?: string;
 }
 
 export interface AgentProgress {
@@ -69,15 +76,15 @@ export interface Campaign {
   progress: AgentProgress;
   sent: number;
   replies: number;
+  /** Message from the agent when it stopped early or is waiting. */
+  note?: string;
+  /** False while the agent is still searching for businesses. */
+  sourced: boolean;
+  toReview: number;
+  /** Businesses found without a website: leads worth calling. */
+  withoutWebsite: number;
 }
 
-export interface MailIdentity {
-  id: string;
-  provider: MailProvider;
-  label: string;
-  email: string;
-  connected: boolean;
-}
 
 export interface Plan {
   id: PlanId;
@@ -88,23 +95,4 @@ export interface Plan {
   features: string[];
 }
 
-export interface Account {
-  name: string;
-  company: string;
-  email: string;
-  initials: string;
-  planId: PlanId;
-  credits: { balance: number; renewsOn: string };
-  excludedCount: number;
-  language: string;
-  tone: string;
-}
 
-export interface AdminIncident {
-  id: string;
-  kind: string;
-  critical: boolean;
-  label: string;
-  when: string;
-  action: string;
-}

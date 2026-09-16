@@ -1,36 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { PageContainer, PageTitle } from "@/components/app/page-shell";
 import { Button } from "@/components/ui/button";
-import { cn, formatNumber } from "@/lib/format";
-import { account } from "@/lib/mock-data";
-import { useAppStore } from "@/lib/store";
+import { deleteAccount, setReplyDetection } from "@/lib/actions/account";
+import { signOut } from "@/lib/actions/auth";
+import { cn } from "@/lib/format";
 
-export function Settings() {
-  const { state, dispatch } = useAppStore();
+export interface SettingsProfile {
+  name: string;
+  email: string;
+  company: string;
+  language: string;
+  tone: string;
+  offer: string | null;
+  replyDetection: boolean;
+}
+
+const languages: Record<string, string> = { fr: "Français", en: "English" };
+
+export function Settings({ profile, isAdmin }: { profile: SettingsProfile; isAdmin: boolean }) {
   const [confirmDelete, setConfirmDelete] = useState(false);
-  const [exportRequested, setExportRequested] = useState(false);
+  const [replyDetection, setReplyDetectionState] = useState(profile.replyDetection);
+  const [pending, startTransition] = useTransition();
+
+  function toggleReplyDetection() {
+    const next = !replyDetection;
+    setReplyDetectionState(next);
+    startTransition(() => setReplyDetection(next));
+  }
 
   const rows = [
-    { label: "Nom", value: account.name },
-    { label: "Entreprise", value: account.company },
-    { label: "E-mail", value: account.email },
-    { label: "Langue des e-mails", value: account.language },
-    { label: "Ton par défaut", value: account.tone },
-    { label: "Adresses exclues", value: formatNumber(account.excludedCount) },
+    { label: "Nom", value: profile.name },
+    { label: "E-mail", value: profile.email },
+    { label: "Entreprise", value: profile.company },
+    { label: "Offre", value: profile.offer ?? "Non renseignée" },
+    { label: "Langue des e-mails", value: languages[profile.language] ?? profile.language },
+    { label: "Ton par défaut", value: profile.tone },
   ];
 
   return (
     <PageContainer size="md" className="gap-9">
-      <PageTitle>Réglages</PageTitle>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <PageTitle>Réglages</PageTitle>
+        <form action={signOut}>
+          <Button type="submit" variant="secondary" size="sm">
+            Se déconnecter
+          </Button>
+        </form>
+      </div>
 
       <dl className="flex flex-col border-t border-rule">
         {rows.map((row) => (
           <div key={row.label} className="flex min-h-15.5 flex-wrap items-center justify-between gap-x-6 gap-y-1 border-b border-rule-soft py-3">
             <dt className="text-graphite">{row.label}</dt>
-            <dd className="font-semibold">{row.value}</dd>
+            <dd className="max-w-[460px] text-right font-semibold">{row.value}</dd>
           </div>
         ))}
         <div className="flex min-h-15.5 items-center justify-between gap-6 border-b border-rule-soft py-3">
@@ -41,18 +66,15 @@ export function Settings() {
             <button
               type="button"
               role="switch"
-              aria-checked={state.replyDetection}
+              aria-checked={replyDetection}
               aria-labelledby="reply-detection"
-              onClick={() => dispatch({ type: "setReplyDetection", value: !state.replyDetection })}
-              className={cn(
-                "relative h-7 w-12 rounded-full transition-colors",
-                state.replyDetection ? "bg-ink" : "bg-rule",
-              )}
+              onClick={toggleReplyDetection}
+              className={cn("relative h-7 w-12 rounded-full transition-colors", replyDetection ? "bg-ink" : "bg-rule")}
             >
               <span
                 className={cn(
                   "absolute top-[3px] left-[3px] size-5.5 rounded-full bg-paper transition-transform",
-                  state.replyDetection && "translate-x-5",
+                  replyDetection && "translate-x-5",
                 )}
               />
             </button>
@@ -71,31 +93,28 @@ export function Settings() {
               <Button variant="secondary" size="sm" onClick={() => setConfirmDelete(false)}>
                 Annuler
               </Button>
-              <Button variant="danger" size="sm">
-                Supprimer
+              <Button variant="danger" size="sm" disabled={pending} onClick={() => startTransition(() => deleteAccount())}>
+                {pending ? "Suppression…" : "Supprimer"}
               </Button>
             </div>
           </div>
         ) : (
           <div className="flex flex-wrap gap-x-7 gap-y-3">
-            <button type="button" className="font-semibold" onClick={() => setExportRequested(true)}>
+            <a href="/api/export" download className="font-semibold">
               Exporter mes données
-            </button>
+            </a>
             <button type="button" className="font-semibold text-danger" onClick={() => setConfirmDelete(true)}>
               Supprimer mon compte
             </button>
           </div>
         )}
-        {exportRequested && (
-          <p role="status" className="text-sm text-graphite">
-            Vous recevrez un lien de téléchargement par e-mail.
-          </p>
-        )}
       </section>
 
-      <Link href="/admin" className="self-start font-mono text-xs text-graphite underline underline-offset-3 hover:text-ink">
-        Console d’administration
-      </Link>
+      {isAdmin && (
+        <Link href="/admin" className="self-start font-mono text-xs text-graphite underline underline-offset-3 hover:text-ink">
+          Console d’administration
+        </Link>
+      )}
     </PageContainer>
   );
 }
